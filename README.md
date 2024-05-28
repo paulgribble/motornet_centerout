@@ -11,4 +11,16 @@ simple demo of training a motornet system
 - saving a network and loading it up again to test it later
 - various plots
 
+## Installing motornet
+
+I use `pip` to organize Python environments. After creating a venv for motornet I install the `speeduptorch` branch of motornet and the nightly version of PyTorch:
+
+```{shell}
+pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch --force
+```
+
+then
+```{shell}
+pip3 install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu --no-cache-dir --force
+```
 
