@@ -13,7 +13,7 @@ simple demo of training a motornet system
 
 ## Installing motornet
 
-I use `pip` to organize Python environments. After creating a venv for motornet I install the `speeduptorch` branch of motornet and the nightly version of PyTorch:
+I use `pip` to organize Python environments. After creating a venv for motornet that includes python3 I install the `speeduptorch` branch of motornet and the nightly version of PyTorch:
 
 ```{shell}
 pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch --force
