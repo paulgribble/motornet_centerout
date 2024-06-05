@@ -7,11 +7,11 @@ class Policy(th.nn.Module):
         self.device = device
         self.hidden_dim = hidden_dim
         self.n_layers = 1
-        
+
         self.gru = th.nn.GRU(input_dim, hidden_dim, 1, batch_first=True)
         self.fc = th.nn.Linear(hidden_dim, output_dim)
         self.sigmoid = th.nn.Sigmoid()
-        
+
         if freeze_output_layer:
             for param in self.fc.parameters():
                 param.requires_grad = False
@@ -31,7 +31,7 @@ class Policy(th.nn.Module):
             elif name == "fc.bias":
                 th.nn.init.constant_(param, -5.)
             else:
-                raise ValueError        
+                raise ValueError
         self.to(device)
 
     def forward(self, x, h):
@@ -39,15 +39,16 @@ class Policy(th.nn.Module):
         # TODO
         # Here I can add noise to h0 before applying
         y, h = self.gru(x[:, None, :], h)
-        #hidden_noise         = 1e-3
+        # hidden_noise         = 1e-3
         u = self.sigmoid(self.fc(y)).squeeze(dim=1)
         return u, h
-    
+
     def init_hidden(self, batch_size):
-        
+
         if hasattr(self, 'h0'):
             hidden = self.h0.repeat(1, batch_size, 1).to(self.device)
         else:
             weight = next(self.parameters()).data
-            hidden = weight.new(self.n_layers, batch_size, self.hidden_dim).zero_().to(self.device)
+            hidden = weight.new(self.n_layers, batch_size,
+                                self.hidden_dim).zero_().to(self.device)
         return hidden
