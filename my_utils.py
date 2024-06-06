@@ -63,7 +63,6 @@ def plot_activation(all_hidden, all_muscles):
     for i in range(n):
         ax[i, 0].plot(x, np.array(all_muscles[i, :, :]))
         ax[i, 1].plot(x, np.array(all_hidden[i, :, :]))
-
         ax[i, 0].set_ylabel('muscle act (au)')
         ax[i, 1].set_ylabel('hidden act (au)')
         ax[i, 0].set_xlabel('time steps')
@@ -82,9 +81,7 @@ def plot_kinematics(all_xy, all_tg, all_vel):
     for i in range(n):
         ax[i, 0].plot(x, np.array(all_tg[i, :, :]), '--')
         ax[i, 0].plot(x, np.array(all_xy[i, :, :]), '-')
-#        ax[i,1].plot(x[1:],np.array(tgvel[i,:,:]), '--')
         ax[i, 1].plot(x, np.array(all_vel[i, :, :]), '-')
-
         ax[i, 0].set_ylabel('xy,tg')
         ax[i, 1].set_ylabel('vel')
         ax[i, 0].set_xlabel('time steps')
@@ -123,8 +120,7 @@ def run_episode(env, policy, batch_size=1, catch_trial_perc=50, condition='train
 
         data['xy'].append(info["states"]["fingertip"][:, None, :])
         data['tg'].append(info["goal"][:, None, :])
-        data['vel'].append(info["states"]["cartesian"]
-                           [:, None, 2:])  # velocity
+        data['vel'].append(info["states"]["cartesian"][:, None, 2:])  # velocity
         data['all_actions'].append(action[:, None, :])
         data['all_force'].append(info['states']['muscle'][:, 6, None, :])
 
@@ -175,18 +171,14 @@ def test(cfg_file, weight_file, ff_coefficient=None, loss_weights=None):
     w = th.load(weight_file)
     num_hidden = int(w['gru.weight_ih_l0'].shape[0]/3)
     if 'h0' in w.keys():
-        policy = Policy(
-            env.observation_space.shape[0], num_hidden, env.n_muscles, device=device, learn_h0=True)
+        policy = Policy(env.observation_space.shape[0], num_hidden, env.n_muscles, device=device, learn_h0=True)
     else:
-        policy = Policy(
-            env.observation_space.shape[0], num_hidden, env.n_muscles, device=device, learn_h0=False)
+        policy = Policy( env.observation_space.shape[0], num_hidden, env.n_muscles, device=device, learn_h0=False)
     policy.load_state_dict(w)
 
     # Run episode
-    data = run_episode(env, policy, 8, 0, 'test',
-                       ff_coefficient=ff_coefficient, detach=True)
-    overall_loss, losses_weighted = cal_loss(
-        data=data, loss_weights=loss_weights)
+    data = run_episode(env, policy, 8, 0, 'test', ff_coefficient=ff_coefficient, detach=True)
+    overall_loss, losses_weighted = cal_loss(data=data, loss_weights=loss_weights)
 
     return data, losses_weighted
 
@@ -236,8 +228,7 @@ def calculate_angles_between_vectors(vel, tg, xy):
     sign = np.sign(cross_product)
 
     # Calculate the angles in degrees
-    angles = sign*np.degrees(np.arccos(np.sum(X2 * X3, axis=1) /
-                             (1e-8+np.linalg.norm(X2, axis=1) * np.linalg.norm(X3, axis=1))))
+    angles = sign*np.degrees(np.arccos(np.sum(X2 * X3, axis=1) / (1e-8+np.linalg.norm(X2, axis=1) * np.linalg.norm(X3, axis=1))))
     return angles
 
 
@@ -266,8 +257,7 @@ def calculate_lateral_deviation(xy, tg, vel=None):
     # Calculate the vector representing the difference between xy and X1
     trajectory_vector = xy - X1[:, None, :]
 
-    projection = np.sum(line_vector2 * trajectory_vector,
-                        axis=-1)/np.sum(line_vector2 * line_vector2, axis=-1)
+    projection = np.sum(line_vector2 * trajectory_vector, axis=-1)/np.sum(line_vector2 * line_vector2, axis=-1)
     projection = line_vector2 * projection[:, :, np.newaxis]
 
     lateral_dev = np.linalg.norm(trajectory_vector - projection, axis=2)
@@ -291,8 +281,7 @@ def calculate_lateral_deviation(xy, tg, vel=None):
     # speed
     if vel is not None:
         vel = np.array(vel)
-        projection = np.sum(line_vector2 * vel, axis=-1) / \
-            np.sum(line_vector2 * line_vector2, axis=-1)
+        projection = np.sum(line_vector2 * vel, axis=-1) / np.sum(line_vector2 * line_vector2, axis=-1)
         projection = line_vector2 * projection[:, :, np.newaxis]
         lateral_vel = np.linalg.norm(vel - projection, axis=2)
         opt['lateral_vel'] = np.mean(lateral_vel, axis=-1)
@@ -324,8 +313,7 @@ def save_model(env, policy, losses, model_name, quiet=False):
 
 
 def plot_stuff(data, model_name, batch=0):
-    fig, ax = plot_simulations(
-        xy=data['xy'], target_xy=data['tg'], figsize=(8, 6))
+    fig, ax = plot_simulations(xy=data['xy'], target_xy=data['tg'], figsize=(8, 6))
     if (not batch == None):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()
@@ -339,8 +327,7 @@ def plot_stuff(data, model_name, batch=0):
     fig.savefig(model_name+"_"+"muscles_"+str(batch)+".png")
     fig.savefig(model_name+"__"+"muscles_current_.png")
     plt.close(fig)
-    fig, ax = plot_kinematics(
-        all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"])
+    fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"])
     if (not batch == None):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()

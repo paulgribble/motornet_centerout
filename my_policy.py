@@ -2,6 +2,7 @@ import torch as th
 
 
 class Policy(th.nn.Module):
+    
     def __init__(self, input_dim: int, hidden_dim: int, output_dim: int, device, freeze_output_layer=False, learn_h0=True):
         super().__init__()
         self.device = device
@@ -35,20 +36,14 @@ class Policy(th.nn.Module):
         self.to(device)
 
     def forward(self, x, h):
-
-        # TODO
-        # Here I can add noise to h0 before applying
         y, h = self.gru(x[:, None, :], h)
-        # hidden_noise         = 1e-3
         u = self.sigmoid(self.fc(y)).squeeze(dim=1)
         return u, h
 
     def init_hidden(self, batch_size):
-
         if hasattr(self, 'h0'):
             hidden = self.h0.repeat(1, batch_size, 1).to(self.device)
         else:
             weight = next(self.parameters()).data
-            hidden = weight.new(self.n_layers, batch_size,
-                                self.hidden_dim).zero_().to(self.device)
+            hidden = weight.new(self.n_layers, batch_size, self.hidden_dim).zero_().to(self.device)
         return hidden
