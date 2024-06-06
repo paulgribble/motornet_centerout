@@ -113,10 +113,7 @@ save_model(env, policy, losses, model_name)
 with open(model_name + "/" + model_name + "_data.pkl", "wb") as f:
     pickle.dump(data, f)
 print_losses(losses_weighted=losses_weighted, model_name=model_name, batch=batch)
-data, _ = test(
-    model_name + "/" + model_name + "_cfg.json",
-    model_name + "/" + model_name + "_weights",
-)
+data, _ = test(model_name + "/" + model_name + "_cfg.json", model_name + "/" + model_name + "_weights")
 plot_stuff(data, model_name + "/" + model_name, batch=batch)
 
 
@@ -132,10 +129,7 @@ for loss in ["overall", "position", "muscle", "hidden", "jerk"]:
 
 # TEST NETWORK ON CENTRE-OUT
 
-data = test(
-    model_name + "/" + model_name + "_cfg.json",
-    model_name + "/" + model_name + "_weights",
-)[0]
+data    = test(model_name + "/" + model_name + "_cfg.json", model_name + "/" + model_name + "_weights",)[0]
 fig, ax = plot_simulations(xy=data["xy"], target_xy=data["tg"], figsize=(8, 6))
 fig, ax = plot_activation(data["all_hidden"], data["all_muscle"])
 fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"])

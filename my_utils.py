@@ -238,7 +238,6 @@ def calculate_angles_between_vectors(vel, tg, xy):
     # Calculate the angles in degrees
     angles = sign*np.degrees(np.arccos(np.sum(X2 * X3, axis=1) /
                              (1e-8+np.linalg.norm(X2, axis=1) * np.linalg.norm(X3, axis=1))))
-
     return angles
 
 
