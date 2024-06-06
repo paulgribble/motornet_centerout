@@ -62,10 +62,9 @@ losses = {
 }
 
 # train over batches!
-for batch in tqdm(range(n_batch),
-                desc=f"Training {n_batch} batches of {batch_size}",
-                unit="batch"):
-
+for batch in tqdm(
+    range(n_batch), desc=f"Training {n_batch} batches of {batch_size}", unit="batch"
+):
     # forward pass of all movements in the batch
     data = run_episode(
         env,

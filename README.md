@@ -13,12 +13,20 @@ simple demo of training a motornet system
 
 ## Installing motornet
 
-I use `pip` to organize Python environments. First I create a venv for motornet that includes python3:
+You may need the python development package if you are going to do anything with compilation (e.g. the `@speeduptorch` branch of motornet):
+
+```{shell}
+sudo apt-get install python3-dev
+```
+
+I use `pip` to organize Python environments. First I create a venv for motornet that includes python3, and install some needed packages:
 
 ```{shell}
 python3 -m venv ~/venvs/motornet python3
 source ~/venvs/motornet/bin/activate
 python3 -m pip install -U pip
+pip install tqdm
+pip install setuptools
 ```
 
 Then I install the `speeduptorch` branch of motornet and the nightly version of PyTorch:
