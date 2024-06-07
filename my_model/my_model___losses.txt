@@ -1,0 +1,15 @@
+batch:  1000, overall_loss: 113.74043, position:  80.40573, muscle:   8.90702, muscle_derivative:   0.08314, hidden:   0.00013, hidden_derivative:   0.00012, jerk_loss:  24.34429
+batch:  2000, overall_loss:  78.79887, position:  62.95747, muscle:   8.17156, muscle_derivative:   0.08202, hidden:   0.00012, hidden_derivative:   0.00014, jerk_loss:   7.58756
+batch:  3000, overall_loss:  49.73122, position:  39.87489, muscle:   5.77882, muscle_derivative:   0.02908, hidden:   0.00012, hidden_derivative:   0.00014, jerk_loss:   4.04818
+batch:  4000, overall_loss:  63.83405, position:  47.06472, muscle:   6.32100, muscle_derivative:   0.05774, hidden:   0.00012, hidden_derivative:   0.00015, jerk_loss:  10.39030
+batch:  5000, overall_loss:  61.85072, position:  47.31673, muscle:   6.58248, muscle_derivative:   0.06383, hidden:   0.00013, hidden_derivative:   0.00015, jerk_loss:   7.88740
+batch:  6000, overall_loss:  55.44551, position:  45.40817, muscle:   5.13421, muscle_derivative:   0.03221, hidden:   0.00013, hidden_derivative:   0.00014, jerk_loss:   4.87066
+batch:  7000, overall_loss:  60.75909, position:  48.17784, muscle:   5.90402, muscle_derivative:   0.07141, hidden:   0.00013, hidden_derivative:   0.00015, jerk_loss:   6.60555
+batch:  8000, overall_loss:  63.59565, position:  50.01192, muscle:   6.09119, muscle_derivative:   0.09232, hidden:   0.00012, hidden_derivative:   0.00014, jerk_loss:   7.39995
+batch:  9000, overall_loss:  73.57668, position:  58.07061, muscle:   6.26202, muscle_derivative:   0.08023, hidden:   0.00013, hidden_derivative:   0.00015, jerk_loss:   9.16353
+batch: 10000, overall_loss:  66.46608, position:  53.63481, muscle:   5.66251, muscle_derivative:   0.06666, hidden:   0.00012, hidden_derivative:   0.00015, jerk_loss:   7.10183
+batch: 11000, overall_loss:  54.19930, position:  41.48565, muscle:   5.70765, muscle_derivative:   0.09847, hidden:   0.00012, hidden_derivative:   0.00016, jerk_loss:   6.90724
+batch: 12000, overall_loss:  86.84248, position:  42.46682, muscle:   6.09956, muscle_derivative:   0.10761, hidden:   0.00012, hidden_derivative:   0.00017, jerk_loss:  38.16821
+batch: 13000, overall_loss:  63.95589, position:  49.50600, muscle:   5.67880, muscle_derivative:   0.08740, hidden:   0.00012, hidden_derivative:   0.00016, jerk_loss:   8.68342
+batch: 14000, overall_loss:  89.00149, position:  44.36773, muscle:   5.53080, muscle_derivative:   0.11039, hidden:   0.00013, hidden_derivative:   0.00017, jerk_loss:  38.99227
+batch: 14999, overall_loss:  68.88840, position:  49.12858, muscle:   6.20597, muscle_derivative:   0.15442, hidden:   0.00013, hidden_derivative:   0.00018, jerk_loss:  13.39912
