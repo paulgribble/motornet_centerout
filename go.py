@@ -9,7 +9,17 @@ import pickle
 from my_policy import Policy  # the RNN
 from my_task import CentreOutFF  # the task
 from my_loss import cal_loss  # the loss function
-from my_utils import *  # misc utility functions
+from my_utils import (
+    save_model,
+    print_losses,
+    plot_stuff,
+    run_episode,
+    test,
+    plot_training_log,
+    plot_simulations,
+    plot_activation,
+    plot_kinematics,
+)  # utility functions
 
 print("All packages imported.")
 print("pytorch version: " + th.__version__)
@@ -113,7 +123,10 @@ save_model(env, policy, losses, model_name)
 with open(model_name + "/" + model_name + "_data.pkl", "wb") as f:
     pickle.dump(data, f)
 print_losses(losses_weighted=losses_weighted, model_name=model_name, batch=batch)
-data, _ = test(model_name + "/" + model_name + "_cfg.json", model_name + "/" + model_name + "_weights")
+data, _ = test(
+    model_name + "/" + model_name + "_cfg.json",
+    model_name + "/" + model_name + "_weights",
+)
 plot_stuff(data, model_name + "/" + model_name, batch=batch)
 
 
@@ -129,7 +142,10 @@ for loss in ["overall", "position", "muscle", "hidden", "jerk"]:
 
 # TEST NETWORK ON CENTRE-OUT
 
-data    = test(model_name + "/" + model_name + "_cfg.json", model_name + "/" + model_name + "_weights",)[0]
+data = test(
+    model_name + "/" + model_name + "_cfg.json",
+    model_name + "/" + model_name + "_weights",
+)[0]
 fig, ax = plot_simulations(xy=data["xy"], target_xy=data["tg"], figsize=(8, 6))
 fig, ax = plot_activation(data["all_hidden"], data["all_muscle"])
 fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"])
