@@ -13,10 +13,10 @@ simple demo of training a motornet system
 
 ## Installing motornet
 
-You may need the python development package if you are going to do anything with compilation (e.g. the `@speeduptorch` branch of motornet):
+You may need the python development package if you are going to do anything with compilation (e.g. the `@speeduptorch` branch of motornet); you will also need the venv package to create a venv later:
 
 ```{shell}
-sudo apt-get install python3-dev
+sudo apt-get install python3-dev python3-venv
 ```
 
 I use `pip` to organize Python environments. First I create a venv for motornet that includes python3, and install some needed packages:
