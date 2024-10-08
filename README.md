@@ -22,21 +22,23 @@ sudo apt-get install python3-dev python3-venv
 I use `pip` to organize Python environments. First I create a venv for motornet that includes python3, and install some needed packages:
 
 ```{shell}
-python3 -m venv ~/venvs/motornet python3
+python3 -m venv ~/venvs/motornet
 source ~/venvs/motornet/bin/activate
 python3 -m pip install -U pip
 pip install tqdm
 pip install setuptools
 ```
 
-Then I install the `speeduptorch` branch of motornet and the nightly version of PyTorch:
+Then I install the `speeduptorch` branch of MotorNet:
 
 ```{shell}
-pip3 install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch --force
+pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch --force
 ```
 
-then
+Then I install the nightly version of PyTorch:
 ```{shell}
-pip3 install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu --no-cache-dir --force
+pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu --no-cache-dir --force
 ```
 
+pip freeze > requirements.txt
+pip install -r requirements.txt
