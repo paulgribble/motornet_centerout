@@ -36,7 +36,7 @@ To save all dependencies:
 pip freeze > requirements.txt
 ```
 
-## OR
+### OR
 
 To (re)install straight from the requirements.txt file:
 ```{shell}
@@ -45,7 +45,7 @@ source ~/venvs/motornet/bin/activate
 pip install -r requirements.txt
 ```
 
-# Speedup Branch
+## Speedup Branch
 
 Or for the speedup branch of motornet (may or may not work in all cases):
 
@@ -61,7 +61,7 @@ To save all dependencies:
 pip freeze > requirements_speedup.txt
 ```
 
-## OR
+### OR
 
 To (re)install straight from the requirements.txt file:
 ```{shell}
