@@ -58,3 +58,9 @@ Then I install the nightly version of PyTorch:
 pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu --no-cache-dir --force
 ```
 
+To save all dependencies:
+
+```{shell}
+pip freeze > requirements_speedup.txt
+```
+
