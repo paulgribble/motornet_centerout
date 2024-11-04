@@ -19,17 +19,35 @@ You may need the python development package if you are going to do anything with
 sudo apt-get install python3-dev python3-venv
 ```
 
-I use `pip` to organize Python environments. First I create a venv for motornet that includes python3, and install some needed packages:
+I use `pip` to organize Python environments. First I create a venv for motornet that includes python3.12, and install some needed packages:
 
 ```{shell}
-python3 -m venv ~/venvs/motornet
+python3.12 -m venv ~/venvs/motornet
 source ~/venvs/motornet/bin/activate
 python3 -m pip install -U pip
-pip install tqdm
-pip install setuptools
+pip install tqdm setuptools ipykernel
 ```
 
-Then I install the `speeduptorch` branch of MotorNet:
+Then I install MotorNet:
+
+```{shell}
+pip install motornet
+```
+
+To save all dependencies:
+
+```{shell}
+pip freeze > requirements.txt
+```
+
+To re-install from the requirements.txt file:
+```{shell}
+pip install -r requirements.txt
+```
+
+Or for the speedup version of motornet:
+
+I install the `speeduptorch` branch of MotorNet:
 
 ```{shell}
 pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch --force
@@ -40,5 +58,3 @@ Then I install the nightly version of PyTorch:
 pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu --no-cache-dir --force
 ```
 
-pip freeze > requirements.txt
-pip install -r requirements.txt
