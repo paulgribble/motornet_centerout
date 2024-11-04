@@ -53,9 +53,9 @@ I install the `speeduptorch` branch of MotorNet:
 pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch --force
 ```
 
-Then I install the nightly version of PyTorch:
+Then I install PyTorch:
 ```{shell}
-pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu --no-cache-dir --force
+pip install torch torchvision torchaudio
 ```
 
 To save all dependencies:
