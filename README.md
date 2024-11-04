@@ -50,7 +50,7 @@ Or for the speedup version of motornet:
 I install the `speeduptorch` branch of MotorNet:
 
 ```{shell}
-pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch --force
+pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch
 ```
 
 Then I install PyTorch:
