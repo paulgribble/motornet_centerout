@@ -53,11 +53,6 @@ I install the `speeduptorch` branch of MotorNet:
 pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch
 ```
 
-Then I install PyTorch:
-```{shell}
-pip install torch torchvision torchaudio
-```
-
 To save all dependencies:
 
 ```{shell}
