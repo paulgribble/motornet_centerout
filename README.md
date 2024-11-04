@@ -45,9 +45,9 @@ source ~/venvs/motornet/bin/activate
 pip install -r requirements.txt
 ```
 
-## Other
+# Speedup Branch
 
-Or for the speedup version of motornet:
+Or for the speedup branch of motornet (may or may not work in all cases):
 
 I install the `speeduptorch` branch of MotorNet:
 
@@ -60,4 +60,14 @@ To save all dependencies:
 ```{shell}
 pip freeze > requirements_speedup.txt
 ```
+
+## OR
+
+To (re)install straight from the requirements.txt file:
+```{shell}
+python3.12 -m venv ~/venvs/motornet
+source ~/venvs/motornet/bin/activate
+pip install -r requirements_speedup.txt
+```
+
 
