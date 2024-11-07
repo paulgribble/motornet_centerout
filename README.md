@@ -70,4 +70,13 @@ source ~/venvs/motornet/bin/activate
 pip install -r requirements_speedup.txt
 ```
 
+## PLG
+
+```{shell}
+python3.12 -m venv venv
+source venv/bin/activate
+python3 -m pip install -U pip
+pip install tqdm setuptools ipykernel
+pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch
+```
 
