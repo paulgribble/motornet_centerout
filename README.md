@@ -18,8 +18,8 @@ Assumption: you have python3.12 installed.
 I use `pip` to organize Python environments. First I create a venv for motornet that includes python3.12, and install some needed packages:
 
 ```{shell}
-python3.12 -m venv ~/venvs/motornet
-source ~/venvs/motornet/bin/activate
+python3.12 -m venv venv_motornet
+source venv_motornet/bin/activate
 python3 -m pip install -U pip
 pip install tqdm setuptools ipykernel
 ```
@@ -40,8 +40,8 @@ pip freeze > requirements.txt
 
 To (re)install straight from the requirements.txt file:
 ```{shell}
-python3.12 -m venv ~/venvs/motornet
-source ~/venvs/motornet/bin/activate
+python3.12 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
