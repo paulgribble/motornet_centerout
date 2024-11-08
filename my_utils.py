@@ -190,7 +190,7 @@ def print_losses(losses_weighted, model_name, batch):
     fstring = f"batch: {batch:5d}, overall_loss: {overall_loss:9.5f}, "
     for l in losses_weighted.keys():
         fstring = fstring + f"{l}: {losses_weighted[l]:9.5f}, "
-    with open(model_name + "/" + model_name + "___losses.txt", "a") as f:
+    with open("models/" + model_name + "/" + model_name + "___losses.txt", "a") as f:
         print(fstring[:-2], file=f)
 
 
@@ -290,9 +290,9 @@ def calculate_lateral_deviation(xy, tg, vel=None):
 
 
 def save_model(env, policy, losses, model_name, quiet=False):
-    weight_file = os.path.join(model_name, model_name + "_weights")
-    log_file = os.path.join(model_name, model_name + "_log.json")
-    cfg_file = os.path.join(model_name, model_name + "_cfg.json")
+    weight_file = os.path.join("models", model_name, model_name + "_weights")
+    log_file = os.path.join("models", model_name, model_name + "_log.json")
+    cfg_file = os.path.join("models", model_name, model_name + "_cfg.json")
 
     # save model weights
     th.save(policy.state_dict(), weight_file)
