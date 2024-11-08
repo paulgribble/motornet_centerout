@@ -117,7 +117,7 @@ def train(model_name="my_model"):
         losses["jerk"].append(losses_weighted["jerk_loss"].item())
 
     # end of training, save the model and make plots
-    save_model(env, policy, losses, "models/" + model_name)
+    save_model(env, policy, losses, model_name)
     with open("models/" + model_name + "/" + model_name + "_data.pkl", "wb") as f:
         pickle.dump(data, f)
     print_losses(losses_weighted=losses_weighted, model_name=model_name, batch=batch)
