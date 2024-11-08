@@ -21,7 +21,7 @@ I use `pip` to organize Python environments. First I create a venv for motornet 
 python3.12 -m venv venv
 source venv/bin/activate
 python3 -m pip install -U pip
-pip install tqdm setuptools ipykernel
+pip install tqdm setuptools ipykernel joblib
 ```
 
 Then I install MotorNet:
@@ -45,7 +45,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Speedup Branch
+### Speedup Branch
 
 Or for the speedup branch of motornet (may or may not work in all cases):
 
@@ -70,7 +70,7 @@ source ~/venvs/motornet/bin/activate
 pip install -r requirements_speedup.txt
 ```
 
-## PLG
+## This is what I do currently
 
 ```{shell}
 python3.12 -m venv venv
