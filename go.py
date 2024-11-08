@@ -41,7 +41,7 @@ def train(model_name, n_batch, jobnum):
     env = CentreOutFF(effector=effector, max_ep_duration=1.5)
 
     # define the RNN
-    n_units = 128
+    n_units = 64
     policy = Policy(env.observation_space.shape[0], n_units, env.n_muscles, device=device)
 
     # define the learning rule for updating RNN weights
@@ -79,8 +79,7 @@ def train(model_name, n_batch, jobnum):
         position      = jobnum,
         dynamic_ncols = True,
         mininterval   = 5.0,
-        leave         = True,
-        ncols         = 80
+        leave         = True
     ):
         # forward pass of all movements in the batch
         data = run_episode(
