@@ -153,7 +153,7 @@ if __name__ == "__main__":
     print("numpy version: " + np.__version__)
     print("motornet version: " + mn.__version__)
 
-    n_models = 16
+    n_models = 10
     print(f"training {n_models} models ...")
 
     if not os.path.exists("models"):
