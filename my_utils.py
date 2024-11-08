@@ -168,7 +168,7 @@ def test(cfg_file, weight_file, ff_coefficient=None, loss_weights=None):
                       vision_delay=vision_delay)
 
     # network
-    w = th.load(weight_file)
+    w = th.load(weight_file, weights_only=True)
     num_hidden = int(w['gru.weight_ih_l0'].shape[0]/3)
     if 'h0' in w.keys():
         policy = Policy(env.observation_space.shape[0], num_hidden, env.n_muscles, device=device, learn_h0=True)

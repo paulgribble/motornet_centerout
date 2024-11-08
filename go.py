@@ -7,6 +7,7 @@ from tqdm import tqdm
 import pickle
 
 from joblib import Parallel, delayed
+import multiprocessing
 
 from my_policy import Policy  # the RNN
 from my_task import CentreOutFF  # the task
@@ -24,7 +25,7 @@ from my_utils import (
 )  # utility functions
 
 
-def train(model_name="my_model"):
+def train(model_name, n_batch, jobnum):
 
     device = th.device("cpu")  # use the cpu not the gpu
 
@@ -54,7 +55,7 @@ def train(model_name="my_model"):
 
     # TRAIN THE RNN TO REACH TO RANDOM TARGETS
 
-    n_batch = 20000  # number of batches to train on
+#    n_batch = 20000  # number of batches to train on
     batch_size = 32  # number of movements in each batch
     interval = 1000  # save progress & plots every so often
 
@@ -71,7 +72,13 @@ def train(model_name="my_model"):
 
     # train over batches!
     for batch in tqdm(
-        range(n_batch), desc=f"Training {n_batch} batches of {batch_size}", unit="batch"
+        iterable      = range(n_batch), 
+        desc          = f"job {jobnum}: Training {n_batch} batches of {batch_size}", 
+        unit          = "batch", 
+        total         = n_batch, 
+        position      = jobnum,
+        dynamic_ncols = True,
+        mininterval   = 1.0
     ):
         # forward pass of all movements in the batch
         data = run_episode(
@@ -153,11 +160,17 @@ if __name__ == "__main__":
     print("numpy version: " + np.__version__)
     print("motornet version: " + mn.__version__)
 
+    n_batch  = 20000
     n_models = 10
+    
+    n_cpus = multiprocessing.cpu_count()
+    print(f"found {n_cpus} CPUs")
     print(f"training {n_models} models ...")
 
     if not os.path.exists("models"):
             os.mkdir("models")
 
     for i in range(n_models):
-        result = Parallel(n_jobs=n_models)(delayed(train)(f"m{iteration}") for iteration in range(n_models))
+        result = Parallel(n_jobs=n_cpus)(delayed(train)(f"m{iteration}", n_batch, iteration) for iteration in range(n_models))
+
+
