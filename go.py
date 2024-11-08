@@ -78,7 +78,7 @@ def train(model_name, n_batch, jobnum):
         total         = n_batch, 
         position      = jobnum,
         dynamic_ncols = True,
-        mininterval   = 1.0
+        mininterval   = 2.0
     ):
         # forward pass of all movements in the batch
         data = run_episode(
