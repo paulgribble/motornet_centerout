@@ -78,7 +78,7 @@ def train(model_name, n_batch, jobnum):
         total         = n_batch, 
         position      = jobnum,
         dynamic_ncols = True,
-        mininterval   = 2.0,
+        mininterval   = 5.0,
         leave         = True,
         ncols         = 80
     ):
