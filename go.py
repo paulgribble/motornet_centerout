@@ -40,7 +40,7 @@ def train(model_name="my_model"):
     env = CentreOutFF(effector=effector, max_ep_duration=1.5)
 
     # define the RNN
-    n_units = 64
+    n_units = 128
     policy = Policy(env.observation_space.shape[0], n_units, env.n_muscles, device=device)
 
     # define the learning rule for updating RNN weights
@@ -54,7 +54,7 @@ def train(model_name="my_model"):
 
     # TRAIN THE RNN TO REACH TO RANDOM TARGETS
 
-    n_batch = 15000  # number of batches to train on
+    n_batch = 20000  # number of batches to train on
     batch_size = 32  # number of movements in each batch
     interval = 1000  # save progress & plots every so often
 
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     print("numpy version: " + np.__version__)
     print("motornet version: " + mn.__version__)
 
-    n_models = 12
+    n_models = 16
     print(f"training {n_models} models ...")
 
     if not os.path.exists("models"):
