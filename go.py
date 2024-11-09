@@ -128,7 +128,7 @@ def train(model_name, n_batch, jobnum):
     save_model(env, policy, losses, model_name)
     with open("models/" + model_name + "/" + model_name + "_data.pkl", "wb") as f:
         pickle.dump(data, f)
-    print_losses(losses_weighted=losses_weighted, model_name=model_name, batch=batch)
+    #print_losses(losses_weighted=losses_weighted, model_name=model_name, batch=batch)
     data, _ = test(
         "models/" + model_name + "/" + model_name + "_cfg.json",
         "models/" + model_name + "/" + model_name + "_weights",
@@ -138,7 +138,7 @@ def train(model_name, n_batch, jobnum):
     # PLOT LOSS FUNCTION(s)
 
     log = json.load(open("models/" + model_name + "/" + model_name + "_log.json", "r"))
-    print(log["losses"].keys())
+    #print(log["losses"].keys())
     w = 50
     for loss in ["overall", "position", "muscle", "hidden", "jerk"]:
         fig, ax = plot_training_log(log=log["losses"], loss_type=loss, w=w)
@@ -172,6 +172,6 @@ if __name__ == "__main__":
             os.mkdir("models")
 
     for i in range(n_models):
-        result = Parallel(n_jobs=n_cpus)(delayed(train)(f"m{iteration}", n_batch, iteration) for iteration in range(n_models))
+        result = Parallel(n_jobs=min(n_cpus,n_models))(delayed(train)(f"m{iteration}", n_batch, iteration) for iteration in range(n_models))
 
 
