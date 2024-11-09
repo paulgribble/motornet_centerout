@@ -73,7 +73,7 @@ def train(model_name, n_batch, jobnum):
     # train over batches!
     for batch in tqdm(
         iterable      = range(n_batch), 
-        desc          = f"job {jobnum}: Training {n_batch} batches of {batch_size}", 
+        desc          = f"model {jobnum}: Training {n_batch} batches of {batch_size}", 
         unit          = "batch", 
         total         = n_batch, 
         position      = jobnum,
