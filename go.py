@@ -161,7 +161,7 @@ if __name__ == "__main__":
     print("numpy version: " + np.__version__)
     print("motornet version: " + mn.__version__)
 
-    n_batch  = 20000
+    n_batch  = 10000
     n_models = 10
     
     n_cpus = multiprocessing.cpu_count()
