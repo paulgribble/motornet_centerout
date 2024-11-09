@@ -55,7 +55,7 @@ def train(model_name, n_batch, jobnum):
 
     # TRAIN THE RNN TO REACH TO RANDOM TARGETS
 
-#    n_batch = 20000  # number of batches to train on
+    #n_batch = 20000  # number of batches to train on
     batch_size = 32  # number of movements in each batch
     interval = 1000  # save progress & plots every so often
 
@@ -171,7 +171,6 @@ if __name__ == "__main__":
     if not os.path.exists("models"):
             os.mkdir("models")
 
-    for i in range(n_models):
-        result = Parallel(n_jobs=min(n_cpus,n_models))(delayed(train)(f"m{iteration}", n_batch, iteration) for iteration in range(n_models))
+    result = Parallel(n_jobs=n_cpus)(delayed(train)(f"m{iteration}", n_batch, iteration) for iteration in range(n_models))
 
 
