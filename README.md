@@ -21,7 +21,7 @@ I use `pip` to organize Python environments. First I create a venv for motornet 
 python3.12 -m venv venv
 source venv/bin/activate
 python3 -m pip install -U pip
-pip install tqdm setuptools ipykernel joblib scipy scikit-learn dPCA
+pip install tqdm setuptools ipykernel joblib
 ```
 
 Then I install MotorNet:
