@@ -4,7 +4,6 @@ import numpy as np
 import torch as th
 import motornet as mn
 from tqdm import tqdm
-from dPCA.dPCA import dPCA
 import pickle
 
 from joblib import Parallel, delayed
