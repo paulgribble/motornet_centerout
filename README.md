@@ -76,7 +76,7 @@ pip install -r requirements_speedup.txt
 python3.12 -m venv venv
 source venv/bin/activate
 python3 -m pip install -U pip
-pip install tqdm setuptools ipykernel joblib dPCA
+pip install tqdm setuptools ipykernel joblib
 pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch
 ```
 
