@@ -330,7 +330,7 @@ def plot_stuff(data, model_name, batch=0):
     fig.savefig(model_name+"_"+"muscles_"+str(batch)+".png")
     fig.savefig(model_name+"__"+"muscles_current_.png")
     plt.close(fig)
-    fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"])
+    fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"], all_obs=data["obs"])
     if (not batch == None):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()
