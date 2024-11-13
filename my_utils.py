@@ -71,14 +71,15 @@ def plot_activation(all_hidden, all_muscles):
     return fig, ax
 
 
-def plot_kinematics(all_xy, all_tg, all_vel):
-    n = np.shape(all_xy)[0]
+def plot_kinematics(all_xy, all_tg, all_vel, all_obs):
+    n = np.shape(all_xy)[0] # movements
     fig, ax = plt.subplots(nrows=n, ncols=2, figsize=(6, 10))
 
     x = np.linspace(0, all_xy.size(dim=1), all_xy.size(dim=1))
     tgvel = np.diff(np.array(all_tg), axis=1)*100
 
     for i in range(n):
+        ax[i, 0].plot(x, np.array(all_obs[i, :, [0,1]]), ':')
         ax[i, 0].plot(x, np.array(all_tg[i, :, :]), '--')
         ax[i, 0].plot(x, np.array(all_xy[i, :, :]), '-')
         ax[i, 1].plot(x, np.array(all_vel[i, :, :]), '-')
@@ -102,6 +103,7 @@ def run_episode(env, policy, batch_size=1, catch_trial_perc=50, condition='train
     # Initialize a dictionary to store lists
     data = {
         'xy': [],
+        'obs': [],
         'tg': [],
         'vel': [],
         'all_actions': [],
@@ -119,6 +121,7 @@ def run_episode(env, policy, batch_size=1, catch_trial_perc=50, condition='train
         obs, _, terminated, _, info = env.step(action=action)
 
         data['xy'].append(info["states"]["fingertip"][:, None, :])
+        data['obs'].append(obs[:, None, :])
         data['tg'].append(info["goal"][:, None, :])
         data['vel'].append(info["states"]["cartesian"][:, None, 2:])  # velocity
         data['all_actions'].append(action[:, None, :])

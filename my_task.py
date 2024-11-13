@@ -21,7 +21,8 @@ class CentreOutFF(mn.environment.Environment):
               is_channel: bool = False,
               K: float = 1,
               B: float = -1,
-              go_cue_range: Union[list, tuple, np.ndarray] = (0.1, 0.6),  # range of times of randomized go-cue onset
+              tgt_cue_range: Union[list, tuple, np.ndarray] = (0.2, 0.4), # range of times of randomized tgt-cue onset
+              go_cue_range: Union[list, tuple, np.ndarray] = (0.5, 0.7),  # range of times of randomized go-cue onset
               options: dict[str, Any] | None = None) -> tuple[Any, dict[str, Any]]:
 
         self._set_generator(seed)
@@ -33,7 +34,8 @@ class CentreOutFF(mn.environment.Environment):
 
         self.catch_trial_perc = catch_trial_perc
         self.ff_coefficient = ff_coefficient
-        self.go_cue_range = go_cue_range  # in seconds
+        self.tgt_cue_range = tgt_cue_range  # in seconds
+        self.go_cue_range = go_cue_range    # in seconds
         self.is_channel = is_channel
         self.K = K
         self.B = B
@@ -44,6 +46,10 @@ class CentreOutFF(mn.environment.Environment):
 
             goal = self.joint2cartesian(self.effector.draw_random_uniform_states(batch_size)).chunk(2, dim=-1)[0]
             self.goal = goal if self.differentiable else self.detach(goal)
+
+            # specify tgt cue time
+            tgt_cue_time = np.random.uniform(self.tgt_cue_range[0], self.tgt_cue_range[1], batch_size)
+            self.tgt_cue_time = tgt_cue_time
 
             # specify go cue time
             go_cue_time = np.random.uniform(self.go_cue_range[0], self.go_cue_range[1], batch_size)
@@ -76,6 +82,11 @@ class CentreOutFF(mn.environment.Environment):
 
             self.goal = goal if self.differentiable else self.detach(goal)
 
+            # specify tgt cue time
+            # same tgt-cue time for all targets
+            tgt_cue_time = np.tile(0.25, batch_size)
+            self.tgt_cue_time = tgt_cue_time
+
             # specify go cue time
             # same go-cue time for all targets
             go_cue_time = np.tile(0.5, batch_size)
@@ -103,6 +114,8 @@ class CentreOutFF(mn.environment.Environment):
         self.go_cue_time[self.catch_trial == 1] = self.max_ep_duration
         self.go_cue = th.zeros((batch_size, 1)).to(self.device)
 
+        self.tgt_cue = th.zeros((batch_size, 1)).to(self.device)
+
         obs = self.get_obs(deterministic=deterministic)
 
         # initial states
@@ -116,7 +129,9 @@ class CentreOutFF(mn.environment.Environment):
             "endpoint_load": self.endpoint_load,
             "action":        action,
             "noisy action":  action,  # no noise here so it is the same
+            "obs":           obs,
             "goal":          self.goal,
+            "tgt_cue_time":  self.tgt_cue_time,
             "go_cue_time":   self.go_cue_time,
         }
         return obs, info
@@ -183,7 +198,9 @@ class CentreOutFF(mn.environment.Environment):
             "action":        action,
             "noisy action":  noisy_action,
             # update the target depending on the go cue
+            "obs":           obs,
             "goal":          self.goal * self.go_cue + self.init * (1-self.go_cue),
+            "tgt_cue_time":  self.tgt_cue_time,
             "go_cue_time":   self.go_cue_time,
         }
         return obs, reward, terminated, truncated, info
@@ -201,8 +218,12 @@ class CentreOutFF(mn.environment.Environment):
     def get_obs(self, action=None, deterministic: bool = False):
         self.update_obs_buffer(action=action)
 
+        # specify tgt cue time
+        mask = self.elapsed >= (self.tgt_cue_time + (self.vision_delay-1) * self.dt)
+        self.tgt_cue[mask] = 1
+
         obs_as_list = [
-            self.goal,
+            self.goal * self.tgt_cue + self.states['fingertip'] * (1-self.tgt_cue),
             self.obs_buffer["vision"][0],         # oldest element
             self.obs_buffer["proprioception"][0], # oldest element
             self.go_cue,                          # specify go cue as an input to the network

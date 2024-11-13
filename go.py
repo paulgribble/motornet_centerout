@@ -152,7 +152,7 @@ def train(model_name, n_batch, jobnum):
     )[0]
     fig, ax = plot_simulations(xy=data["xy"], target_xy=data["tg"], figsize=(8, 6))
     fig, ax = plot_activation(data["all_hidden"], data["all_muscle"])
-    fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"])
+    fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"], all_obs=data["obs"])
 
 if __name__ == "__main__":
 
@@ -161,8 +161,8 @@ if __name__ == "__main__":
     print("numpy version: " + np.__version__)
     print("motornet version: " + mn.__version__)
 
-    n_batch  = 50000
-    n_models = 10
+    n_batch  = 1000
+    n_models = 4
     
     n_cpus = multiprocessing.cpu_count()
     print(f"found {n_cpus} CPUs")
