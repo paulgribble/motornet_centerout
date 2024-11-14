@@ -15,14 +15,15 @@ class CentreOutFF(mn.environment.Environment):
 
     def reset(self, *,
               seed: int | None = None,
+              max_ep_duration = 1.5,
               ff_coefficient: float = 0.,
               condition: str = 'train',
               catch_trial_perc: float = 50,  # percentage of trials that are no-go catch trials
               is_channel: bool = False,
               K: float = 1,
               B: float = -1,
-              tgt_cue_range: Union[list, tuple, np.ndarray] = (0.2, 0.4), # range of times of randomized tgt-cue onset
-              go_cue_range: Union[list, tuple, np.ndarray] = (0.5, 0.7),  # range of times of randomized go-cue onset
+              tgt_cue_range: Union[list, tuple, np.ndarray] = (0.2, 0.7), # range of times of randomized tgt-cue onset
+              go_cue_range: Union[list, tuple, np.ndarray] = (0.7, 1.2),  # range of times of randomized go-cue onset
               options: dict[str, Any] | None = None) -> tuple[Any, dict[str, Any]]:
 
         self._set_generator(seed)
@@ -84,12 +85,12 @@ class CentreOutFF(mn.environment.Environment):
 
             # specify tgt cue time
             # same tgt-cue time for all targets
-            tgt_cue_time = np.tile(0.25, batch_size)
+            tgt_cue_time = np.tile(0.30, batch_size)
             self.tgt_cue_time = tgt_cue_time
 
             # specify go cue time
             # same go-cue time for all targets
-            go_cue_time = np.tile(0.5, batch_size)
+            go_cue_time = np.tile(0.60, batch_size)
             self.go_cue_time = go_cue_time
 
         self.effector.reset(
