@@ -25,8 +25,8 @@ I use `pip` to organize Python environments.
 python3.12 -m venv venv
 source venv/bin/activate
 python3 -m pip install -U pip
-pip install tqdm setuptools ipykernel nbconvert joblib dPCA scipy scikit-learn numexpr numba
 pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch
+pip install tqdm setuptools ipykernel nbconvert joblib dPCA scipy scikit-learn numexpr numba
 pip freeze > requirements.txt
 ```
 
