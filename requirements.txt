@@ -29,6 +29,7 @@ jupyter_client==8.6.3
 jupyter_core==5.7.2
 jupyterlab_pygments==0.3.0
 kiwisolver==1.4.7
+llvmlite==0.43.0
 MarkupSafe==3.0.2
 matplotlib==3.9.2
 matplotlib-inline==0.1.7
@@ -40,8 +41,9 @@ nbconvert==7.16.4
 nbformat==5.10.4
 nest-asyncio==1.6.0
 networkx==3.4.2
+numba==0.60.0
 numexpr==2.10.1
-numpy==2.1.3
+numpy==2.0.2
 packaging==24.2
 pandocfilters==1.5.1
 parso==0.8.4
