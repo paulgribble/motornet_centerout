@@ -13,70 +13,20 @@ simple demo of training a motornet system
 
 ## Installing motornet
 
-Assumption: you have python3.12 installed.
+Assumption: you have python3.12 installed. On MacOS:
 
-I use `pip` to organize Python environments. First I create a venv for motornet that includes python3.12, and install some needed packages:
+```{shell}
+brew install python@3.12
+```
+
+I use `pip` to organize Python environments.
 
 ```{shell}
 python3.12 -m venv venv
 source venv/bin/activate
 python3 -m pip install -U pip
-pip install tqdm setuptools ipykernel nbconvert joblib
-```
-
-Then I install MotorNet:
-
-```{shell}
-pip install motornet
-```
-
-To save all dependencies:
-
-```{shell}
+pip install tqdm setuptools ipykernel nbconvert joblib dPCA
+pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch
 pip freeze > requirements.txt
-```
-
-### OR
-
-To (re)install straight from the requirements.txt file:
-```{shell}
-python3.12 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-### Speedup Branch
-
-Or for the speedup branch of motornet (may or may not work in all cases):
-
-I install the `speeduptorch` branch of MotorNet:
-
-```{shell}
-pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch
-```
-
-To save all dependencies:
-
-```{shell}
-pip freeze > requirements_speedup.txt
-```
-
-### OR
-
-To (re)install straight from the requirements.txt file:
-```{shell}
-python3.12 -m venv ~/venvs/motornet
-source ~/venvs/motornet/bin/activate
-pip install -r requirements_speedup.txt
-```
-
-## This is what I do currently
-
-```{shell}
-python3.12 -m venv venv
-source venv/bin/activate
-python3 -m pip install -U pip
-pip install tqdm setuptools ipykernel nbconvert joblib
-pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch
 ```
 
