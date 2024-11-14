@@ -22,8 +22,8 @@ class CentreOutFF(mn.environment.Environment):
               is_channel: bool = False,
               K: float = 1,
               B: float = -1,
-              tgt_cue_range: Union[list, tuple, np.ndarray] = (0.2, 0.7), # range of times of randomized tgt-cue onset
-              go_cue_range: Union[list, tuple, np.ndarray] = (0.7, 1.2),  # range of times of randomized go-cue onset
+              tgt_cue_range: Union[list, tuple, np.ndarray] = (0.2, 0.4), # range of times of randomized tgt-cue onset
+              go_cue_range:  Union[list, tuple, np.ndarray] = (0.5, 0.7), # range of times of randomized go-cue onset
               options: dict[str, Any] | None = None) -> tuple[Any, dict[str, Any]]:
 
         self._set_generator(seed)
