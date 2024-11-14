@@ -15,15 +15,15 @@ class CentreOutFF(mn.environment.Environment):
 
     def reset(self, *,
               seed: int | None = None,
-              max_ep_duration = 1.5,
+              max_ep_duration = 1.6,
               ff_coefficient: float = 0.,
               condition: str = 'train',
               catch_trial_perc: float = 50,  # percentage of trials that are no-go catch trials
               is_channel: bool = False,
               K: float = 1,
               B: float = -1,
-              tgt_cue_range: Union[list, tuple, np.ndarray] = (0.2, 0.4), # range of times of randomized tgt-cue onset
-              go_cue_range:  Union[list, tuple, np.ndarray] = (0.5, 0.7), # range of times of randomized go-cue onset
+              tgt_cue_range: Union[list, tuple, np.ndarray] = (0.1, 0.5), # range of times of randomized tgt-cue onset
+              go_cue_range:  Union[list, tuple, np.ndarray] = (0.5, 0.9), # range of times of randomized go-cue onset
               options: dict[str, Any] | None = None) -> tuple[Any, dict[str, Any]]:
 
         self._set_generator(seed)

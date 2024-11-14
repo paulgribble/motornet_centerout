@@ -38,7 +38,7 @@ def train(model_name, n_batch, jobnum):
     # also allows for NF or FF or force-channel probe trials
     # also includes reaching to random targets in the workspace
     # by default 50% no-go catch trials (to help it learn to stay put until the go cue)
-    env = CentreOutFF(effector=effector, max_ep_duration=1.5)
+    env = CentreOutFF(effector=effector, max_ep_duration=1.6)
 
     # define the RNN
     n_units = 100
@@ -57,7 +57,7 @@ def train(model_name, n_batch, jobnum):
 
     #n_batch = 20000  # number of batches to train on
     batch_size = 32  # number of movements in each batch
-    interval = 1000  # save progress & plots every so often
+    interval = 4000  # save progress & plots every so often
 
     # a dictionary to store loss values over training
     losses = {
