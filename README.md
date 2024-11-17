@@ -26,7 +26,7 @@ python3.12 -m venv venv
 source venv/bin/activate
 python3 -m pip install -U pip
 pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch
-pip install tqdm setuptools ipykernel nbconvert joblib dPCA scipy scikit-learn numexpr numba
+pip install tqdm setuptools ipykernel nbconvert joblib dPCA scipy scikit-learn numexpr numba pandas
 pip freeze > requirements.txt
 ```
 
