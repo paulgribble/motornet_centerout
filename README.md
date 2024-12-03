@@ -26,7 +26,7 @@ brew install python@3.12
 I use `pip` to organize Python environments.
 
 ```{shell}
-python3.12 -m venv venv
+python3.12 -m venv .venv
 source venv/bin/activate
 python3 -m pip install -U pip
 pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch

@@ -2,4 +2,4 @@
 __pycache__/
 my_model/
 models/
-venv/
+.venv/
