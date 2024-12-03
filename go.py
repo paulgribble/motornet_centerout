@@ -87,8 +87,8 @@ def train(model_name, n_batch, jobnum):
             policy,
             batch_size,
             catch_trial_perc=50,
-            condition="train",
-            ff_coefficient=0.0,
+            condition="train",  # 'train' means random targets in the arm's workspace
+            ff_coefficient=0.0, # NULL FIELD
             detach=False,
         )
 
@@ -161,8 +161,8 @@ if __name__ == "__main__":
     print("numpy version: " + np.__version__)
     print("motornet version: " + mn.__version__)
 
-    n_batch  = 20000
-    n_models = 10
+    n_batch  = 20000  # number of batches to train on
+    n_models = 10     # train 10 models in parallel
     
     n_cpus = multiprocessing.cpu_count()
     print(f"found {n_cpus} CPUs")
