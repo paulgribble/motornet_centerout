@@ -11,10 +11,6 @@ simple demo of training a motornet system
 - saving a network and loading it up again to test it later
 - various plots
 
-## Starting point
-
-The `go.py` script is the starting point. After you can use `golook.ipynb` to load up some results and make some plots.
-
 ## Installing motornet
 
 Assumption: you have python3.12 installed. On MacOS:
@@ -33,4 +29,17 @@ pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch
 pip install tqdm setuptools ipykernel nbconvert joblib dPCA scipy scikit-learn numexpr numba pandas
 pip freeze > requirements.txt
 ```
+
+## Starting point
+
+After you install motornet and the libraries above, activate the venv:
+
+```{shell}
+source .venv/bin/activate
+```
+
+Then the `go.py` script is the starting point.
+
+After you can use `golook.ipynb` to load up some results and make some plots.
+
 
