@@ -11,6 +11,10 @@ simple demo of training a motornet system
 - saving a network and loading it up again to test it later
 - various plots
 
+## Starting point
+
+The `go.py` script is the starting point. After you can use `golook.ipynb` to load up some results and make some plots.
+
 ## Installing motornet
 
 Assumption: you have python3.12 installed. On MacOS:
