@@ -73,7 +73,7 @@ def train(model_name, n_batch, jobnum):
     # train over batches!
     for batch in tqdm(
         iterable      = range(n_batch), 
-        desc          = f"model {jobnum}: Training {n_batch} batches of {batch_size}", 
+        desc          = f"model {jobnum:2d}: Training {n_batch} batches of {batch_size}", 
         unit          = "batch", 
         total         = n_batch, 
         position      = jobnum,
@@ -162,7 +162,7 @@ if __name__ == "__main__":
     print("motornet version: " + mn.__version__)
 
     n_batch  = 20000  # number of batches to train on
-    n_models = 10     # train 10 models in parallel
+    n_models = 20     # train 10 models in parallel
     
     n_cpus = multiprocessing.cpu_count()
     print(f"found {n_cpus} CPUs")
