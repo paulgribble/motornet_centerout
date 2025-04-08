@@ -24,9 +24,8 @@ I use `pip` to organize Python environments.
 ```{shell}
 python3.13 -m venv .venv
 source .venv/bin/activate
-python3 -m pip install -U pip
-pip install git+https://github.com/OlivierCodol/MotorNet.git@speeduptorch
-pip install tqdm setuptools ipykernel nbconvert joblib dPCA scipy scikit-learn numexpr numba pandas
+python3.13 -m pip install -U pip
+pip install numpy matplotlib torch gymnasium tqdm joblib 
 pip freeze > requirements.txt
 ```
 
@@ -44,6 +43,10 @@ Then the `go.py` script is the starting point.
 python3.13 go.py
 ```
 
-After you can use the jupyter notebook `golook.ipynb` to load up some results and make some plots.
+After you can use the jupyter notebook `golook.ipynb` to load up some results and make some plots. You may need to install the following packages to run the notebook:
+
+```{shell}
+pip install setuptools ipykernel nbconvert dPCA scipy scikit-learn numexpr numba pandas
+```
 
 
