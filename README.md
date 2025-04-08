@@ -13,7 +13,7 @@ simple demo of training a motornet system
 
 ## Installing motornet
 
-Assumption: you have python3.12 installed. On MacOS:
+Assumption: you have python3.13 installed. On MacOS:
 
 ```{shell}
 brew install python@3.13
