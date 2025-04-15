@@ -125,10 +125,14 @@ def train(model_name, n_batch, jobnum):
         losses["jerk"].append(losses_weighted["jerk_loss"].item())
 
     # end of training, save the model and make plots
+
+    # save model
     save_model(env, policy, losses, model_name)
     with open("models/" + model_name + "/" + model_name + "_data.pkl", "wb") as f:
         pickle.dump(data, f)
     #print_losses(losses_weighted=losses_weighted, model_name=model_name, batch=batch)
+
+    # run model test and make plots
     data, _ = test(
         "models/" + model_name + "/" + model_name + "_cfg.json",
         "models/" + model_name + "/" + model_name + "_weights",
@@ -136,7 +140,6 @@ def train(model_name, n_batch, jobnum):
     plot_stuff(data, "models/" + model_name + "/" + model_name, batch=batch)
 
     # # PLOT LOSS FUNCTION(s)
-
     # log = json.load(open("models/" + model_name + "/" + model_name + "_log.json", "r"))
     # #print(log["losses"].keys())
     # w = 50
@@ -145,7 +148,6 @@ def train(model_name, n_batch, jobnum):
     #     ax.set_title(f"{loss} (w={w})")
 
     # # TEST NETWORK ON CENTRE-OUT
-
     # data = test(
     #     "models/" + model_name + "/" + model_name + "_cfg.json",
     #     "models/" + model_name + "/" + model_name + "_weights",
