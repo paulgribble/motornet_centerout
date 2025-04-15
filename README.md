@@ -26,7 +26,6 @@ python3.13 -m venv .venv
 source .venv/bin/activate
 python3.13 -m pip install -U pip
 pip install numpy matplotlib torch gymnasium tqdm joblib 
-pip freeze > requirements.txt
 ```
 
 ## Starting point
