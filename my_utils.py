@@ -193,7 +193,7 @@ def print_losses(losses_weighted, model_name, batch):
     fstring = f"batch: {batch:5d}, overall_loss: {overall_loss:9.5f}, "
     for l in losses_weighted.keys():
         fstring = fstring + f"{l}: {losses_weighted[l]:9.5f}, "
-    with open("models/" + model_name + "/" + model_name + "___losses.txt", "a") as f:
+    with open("models/" + model_name + "/" + "losses.txt", "a") as f:
         print(fstring[:-2], file=f)
 
 
@@ -293,9 +293,9 @@ def calculate_lateral_deviation(xy, tg, vel=None):
 
 
 def save_model(env, policy, losses, model_name, quiet=False):
-    weight_file = os.path.join("models", model_name, model_name + "_weights")
-    log_file = os.path.join("models", model_name, model_name + "_log.json")
-    cfg_file = os.path.join("models", model_name, model_name + "_cfg.json")
+    weight_file = os.path.join("models", model_name, "weights")
+    log_file = os.path.join("models", model_name, "log.json")
+    cfg_file = os.path.join("models", model_name, "cfg.json")
 
     # save model weights
     th.save(policy.state_dict(), weight_file)
@@ -320,20 +320,20 @@ def plot_stuff(data, model_name, batch=0):
     if (not batch == None):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()
-    fig.savefig(model_name+"_"+"handpaths_"+str(batch)+".png")
-    fig.savefig(model_name+"__"+"handpaths_current_.png")
+    fig.savefig(model_name+"handpaths_"+str(batch)+".png")
+    fig.savefig(model_name+"_"+"handpaths_current_.png")
     plt.close(fig)
     fig, ax = plot_activation(data['all_hidden'], data['all_muscle'])
     if (not batch == None):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()
-    fig.savefig(model_name+"_"+"muscles_"+str(batch)+".png")
-    fig.savefig(model_name+"__"+"muscles_current_.png")
+    fig.savefig(model_name+"muscles_"+str(batch)+".png")
+    fig.savefig(model_name+"_"+"muscles_current_.png")
     plt.close(fig)
     fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"], all_obs=data["obs"])
     if (not batch == None):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()
-    fig.savefig(model_name+"_"+"kinematics_"+str(batch)+".png")
-    fig.savefig(model_name+"__"+"kinematics_current_.png")
+    fig.savefig(model_name+"kinematics_"+str(batch)+".png")
+    fig.savefig(model_name+"_"+"kinematics_current_.png")
     plt.close(fig)

@@ -55,9 +55,9 @@ def train(model_name, n_batch, jobnum):
 
     # TRAIN THE RNN TO REACH TO RANDOM TARGETS
 
-    #n_batch = 20000  # number of batches to train on
+    n_batch = 100  # number of batches to train on
     batch_size = 32  # number of movements in each batch
-    interval = 4000  # save progress & plots every so often
+    interval = 50  # save progress & plots every so often
 
     # a dictionary to store loss values over training
     losses = {
@@ -104,16 +104,16 @@ def train(model_name, n_batch, jobnum):
         # save weights/config/losses
         if (batch % interval == 0) and (batch != 0):
             save_model(env, policy, losses, model_name, quiet=True)
-            with open("models/" + model_name + "/" + model_name + "_data.pkl", "wb") as f:
+            with open("models/" + model_name + "/" + "data.pkl", "wb") as f:
                 pickle.dump(data, f)
             print_losses(
                 losses_weighted=losses_weighted, model_name=model_name, batch=batch
             )
             data, _ = test(
-                "models/" + model_name + "/" + model_name + "_cfg.json",
-                "models/" + model_name + "/" + model_name + "_weights",
+                "models/" + model_name + "/" + "cfg.json",
+                "models/" + model_name + "/" + "weights",
             )
-            plot_stuff(data, "models/" + model_name + "/" + model_name, batch=batch)
+            plot_stuff(data, "models/" + model_name + "/", batch=batch)
 
         # Update loss values in the dictionary
         losses["overall"].append(loss.item())
@@ -128,19 +128,19 @@ def train(model_name, n_batch, jobnum):
 
     # save model
     save_model(env, policy, losses, model_name)
-    with open("models/" + model_name + "/" + model_name + "_data.pkl", "wb") as f:
+    with open("models/" + model_name + "/" + "data.pkl", "wb") as f:
         pickle.dump(data, f)
     #print_losses(losses_weighted=losses_weighted, model_name=model_name, batch=batch)
 
     # run model test and make plots
     data, _ = test(
-        "models/" + model_name + "/" + model_name + "_cfg.json",
-        "models/" + model_name + "/" + model_name + "_weights",
+        "models/" + model_name + "/" + "cfg.json",
+        "models/" + model_name + "/" + "weights",
     )
-    plot_stuff(data, "models/" + model_name + "/" + model_name, batch=batch)
+    plot_stuff(data, "models/" + model_name + "/", batch=batch)
 
     # # PLOT LOSS FUNCTION(s)
-    # log = json.load(open("models/" + model_name + "/" + model_name + "_log.json", "r"))
+    # log = json.load(open("models/" + model_name + "/" + "log.json", "r"))
     # #print(log["losses"].keys())
     # w = 50
     # for loss in ["overall", "position", "muscle", "hidden", "jerk"]:
@@ -149,8 +149,8 @@ def train(model_name, n_batch, jobnum):
 
     # # TEST NETWORK ON CENTRE-OUT
     # data = test(
-    #     "models/" + model_name + "/" + model_name + "_cfg.json",
-    #     "models/" + model_name + "/" + model_name + "_weights",
+    #     "models/" + model_name + "/" + "cfg.json",
+    #     "models/" + model_name + "/" + "weights",
     # )[0]
     # fig, ax = plot_simulations(xy=data["xy"], target_xy=data["tg"], figsize=(8, 6))
     # fig, ax = plot_activation(data["all_hidden"], data["all_muscle"])
