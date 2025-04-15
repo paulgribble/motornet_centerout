@@ -135,24 +135,24 @@ def train(model_name, n_batch, jobnum):
     )
     plot_stuff(data, "models/" + model_name + "/" + model_name, batch=batch)
 
-    # PLOT LOSS FUNCTION(s)
+    # # PLOT LOSS FUNCTION(s)
 
-    log = json.load(open("models/" + model_name + "/" + model_name + "_log.json", "r"))
-    #print(log["losses"].keys())
-    w = 50
-    for loss in ["overall", "position", "muscle", "hidden", "jerk"]:
-        fig, ax = plot_training_log(log=log["losses"], loss_type=loss, w=w)
-        ax.set_title(f"{loss} (w={w})")
+    # log = json.load(open("models/" + model_name + "/" + model_name + "_log.json", "r"))
+    # #print(log["losses"].keys())
+    # w = 50
+    # for loss in ["overall", "position", "muscle", "hidden", "jerk"]:
+    #     fig, ax = plot_training_log(log=log["losses"], loss_type=loss, w=w)
+    #     ax.set_title(f"{loss} (w={w})")
 
-    # TEST NETWORK ON CENTRE-OUT
+    # # TEST NETWORK ON CENTRE-OUT
 
-    data = test(
-        "models/" + model_name + "/" + model_name + "_cfg.json",
-        "models/" + model_name + "/" + model_name + "_weights",
-    )[0]
-    fig, ax = plot_simulations(xy=data["xy"], target_xy=data["tg"], figsize=(8, 6))
-    fig, ax = plot_activation(data["all_hidden"], data["all_muscle"])
-    fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"], all_obs=data["obs"])
+    # data = test(
+    #     "models/" + model_name + "/" + model_name + "_cfg.json",
+    #     "models/" + model_name + "/" + model_name + "_weights",
+    # )[0]
+    # fig, ax = plot_simulations(xy=data["xy"], target_xy=data["tg"], figsize=(8, 6))
+    # fig, ax = plot_activation(data["all_hidden"], data["all_muscle"])
+    # fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"], all_obs=data["obs"])
 
 if __name__ == "__main__":
 
@@ -162,7 +162,7 @@ if __name__ == "__main__":
     print("motornet version: " + mn.__version__)
 
     n_batch  = 20000  # number of batches to train on
-    n_models = 20     # train models in parallel
+    n_models = 10     # train models in parallel
     
     n_cpus = multiprocessing.cpu_count()
     print(f"found {n_cpus} CPUs")
