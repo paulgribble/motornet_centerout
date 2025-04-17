@@ -25,7 +25,7 @@ I use `pip` to organize Python environments.
 python3.13 -m venv .venv
 source .venv/bin/activate
 python3.13 -m pip install -U pip
-pip install numpy matplotlib torch gymnasium tqdm joblib 
+pip install -r requirements.txt --no-cache-dir --force
 ```
 
 ## Starting point
