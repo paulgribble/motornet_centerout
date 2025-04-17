@@ -9,6 +9,7 @@ DEVICE = th.device("cpu")
 compile_mode = 'max-autotune'
 compile_backend = 'inductor'
 compile_dynamic = False
+th._dynamo.config.cache_size_limit = 64
 
 class Skeleton(th.nn.Module):
   """Base class for `Skeleton` objects.
