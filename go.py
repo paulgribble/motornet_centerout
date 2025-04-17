@@ -1,4 +1,7 @@
 import os
+os.environ['OMP_NUM_THREADS'] = '1'
+os.environ['MKL_NUM_THREADS'] = '1' # Set this too just in case
+
 import json
 import numpy as np
 import torch as th
