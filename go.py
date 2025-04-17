@@ -176,6 +176,8 @@ if __name__ == "__main__":
     if not os.path.exists("models"):
             os.mkdir("models")
 
+    th._dynamo.config.cache_size_limit = 64
+
     result = Parallel(n_jobs=n_cpus)(delayed(train)(f"m{iteration}", n_batch, iteration) for iteration in range(n_models))
 
 
