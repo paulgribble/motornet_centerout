@@ -48,4 +48,5 @@ After you can use the jupyter notebook `golook.ipynb` to load up some results an
 pip install setuptools ipykernel nbconvert dPCA scipy scikit-learn numexpr numba pandas
 ```
 
+You'll also need to install `ffmpeg` for your OS ... on MacOS using homebrew you can just `brew install ffmpeg`.
 
