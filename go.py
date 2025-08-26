@@ -59,8 +59,8 @@ def train(model_name, n_batch, jobnum):
     # TRAIN THE RNN TO REACH TO RANDOM TARGETS
 
     #n_batch = 10000  # number of batches to train on
-    batch_size = 32  # number of movements in each batch
-    interval = 4000  # save progress & plots every so often
+    batch_size = 64  # number of movements in each batch
+    interval = 1000  # save progress & plots every so often
 
     # a dictionary to store loss values over training
     losses = {
