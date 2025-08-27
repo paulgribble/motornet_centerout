@@ -205,5 +205,9 @@ if __name__ == "__main__":
     print(f"Creating archive: {tar_filename}")
     subprocess.run(["tar", "-czf", tar_filename, dir_name], check=True)
     print(f"Archive created: {tar_filename}")
+    
+    # Clean up multiprocessing resources to avoid warning messages
+    import multiprocessing.resource_tracker
+    multiprocessing.resource_tracker._resource_tracker._stop()
 
 
