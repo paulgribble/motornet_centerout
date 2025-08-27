@@ -9,8 +9,10 @@ import motornet as mn
 from tqdm import tqdm
 import pickle
 import argparse
+import warnings
 
 from joblib import Parallel, delayed
+from joblib.externals.loky import get_reusable_executor
 import multiprocessing
 
 from my_policy import Policy  # the RNN
@@ -197,7 +199,17 @@ if __name__ == "__main__":
 
     th._dynamo.config.cache_size_limit = 64
 
-    result = Parallel(n_jobs=n_cpus)(delayed(train)(f"m{iteration}", n_batch, iteration, dir_name, batch_size, interval, catch_trial_perc) for iteration in range(n_models))
+#    result = Parallel(n_jobs=n_cpus)(delayed(train)(f"m{iteration}", n_batch, iteration, dir_name, batch_size, interval, catch_trial_perc) for iteration in range(n_models))
+
+    multiprocessing.set_start_method("forkserver")
+
+    with Parallel(n_jobs=n_cpus) as parallel:          # ensures workers are joined
+        result = parallel(
+            delayed(train)(
+                f"m{iteration}", n_batch, iteration, dir_name, batch_size, interval, catch_trial_perc
+            ) for iteration in range(n_models)
+        )
+    get_reusable_executor().shutdown(wait=True, kill_workers=True)
 
     # Create tar.gz archive of the results directory
     import subprocess
@@ -205,9 +217,6 @@ if __name__ == "__main__":
     print(f"Creating archive: {tar_filename}")
     subprocess.run(["tar", "-czf", tar_filename, dir_name], check=True)
     print(f"Archive created: {tar_filename}")
-    
-    # Clean up multiprocessing resources to avoid warning messages
-    import multiprocessing.resource_tracker
-    multiprocessing.resource_tracker._resource_tracker._stop()
+    print("Training complete!")
 
 
