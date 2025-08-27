@@ -14,6 +14,7 @@ import warnings
 from joblib import Parallel, delayed
 from joblib.externals.loky import get_reusable_executor
 import multiprocessing
+import atexit
 
 from my_policy import Policy  # the RNN
 from my_task import CentreOutFF  # the task
@@ -211,9 +212,14 @@ if __name__ == "__main__":
 
     th._dynamo.config.cache_size_limit = 64
 
-#    result = Parallel(n_jobs=n_cpus)(delayed(train)(f"m{iteration}", n_batch, iteration, dir_name, batch_size, interval, catch_trial_perc) for iteration in range(n_models))
-
-    multiprocessing.set_start_method("forkserver")
+    # Register cleanup on script exit
+    def cleanup_on_exit():
+        try:
+            from joblib.externals.loky import get_reusable_executor
+            get_reusable_executor().shutdown(wait=True)
+        except:
+            pass
+    atexit.register(cleanup_on_exit)
 
     with Parallel(n_jobs=n_cpus, backend='multiprocessing') as parallel:
         result = parallel(
