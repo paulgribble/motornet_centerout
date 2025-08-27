@@ -89,7 +89,7 @@ def train(model_name, n_batch, jobnum, dir_name="models"):
             env,
             policy,
             batch_size,
-            catch_trial_perc=50,
+            catch_trial_perc=25,
             condition="train",  # 'train' means random targets in the arm's workspace
             ff_coefficient=0.0, # NULL FIELD
             detach=False,
@@ -168,7 +168,7 @@ if __name__ == "__main__":
 
     n_batch  = 20000  # number of batches to train on
     n_models = 10     # train models in parallel
-    dir_name = "models"  # directory to store model outputs
+    dir_name = "models_ctp_25"  # directory to store model outputs
     
     n_cpus = multiprocessing.cpu_count()
     print(f"found {n_cpus} CPUs")
@@ -180,5 +180,12 @@ if __name__ == "__main__":
     th._dynamo.config.cache_size_limit = 64
 
     result = Parallel(n_jobs=n_cpus)(delayed(train)(f"m{iteration}", n_batch, iteration, dir_name) for iteration in range(n_models))
+
+    # Create tar.gz archive of the results directory
+    import subprocess
+    tar_filename = f"{dir_name}.tgz"
+    print(f"Creating archive: {tar_filename}")
+    subprocess.run(["tar", "-czf", tar_filename, dir_name], check=True)
+    print(f"Archive created: {tar_filename}")
 
 
