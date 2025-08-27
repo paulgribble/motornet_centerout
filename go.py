@@ -57,6 +57,18 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interva
     # make a directory to store the model info
     if not os.path.exists(f"{dir_name}/{model_name}"):
         os.makedirs(f"{dir_name}/{model_name}", exist_ok=True)
+    
+    # save command line arguments for this model
+    cmd_args = {
+        "n_batch": n_batch,
+        "batch_size": batch_size,
+        "interval": interval,
+        "catch_trial_perc": catch_trial_perc,
+        "dir_name": dir_name,
+        "model_name": model_name
+    }
+    with open(f"{dir_name}/{model_name}/cmd_args.json", "w") as f:
+        json.dump(cmd_args, f, indent=2)
 
 
     # TRAIN THE RNN TO REACH TO RANDOM TARGETS
