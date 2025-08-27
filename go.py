@@ -106,11 +106,11 @@ def train(model_name, n_batch, jobnum, dir_name="models"):
 
         # save weights/config/losses
         if (batch % interval == 0) and (batch != 0):
-            save_model(env, policy, losses, model_name, quiet=True)
+            save_model(env, policy, losses, model_name, quiet=True, dir_name=dir_name)
             with open(dir_name + "/" + model_name + "/" + "data.pkl", "wb") as f:
                 pickle.dump(data, f)
             print_losses(
-                losses_weighted=losses_weighted, model_name=model_name, batch=batch
+                losses_weighted=losses_weighted, model_name=model_name, batch=batch, dir_name=dir_name
             )
             data, _ = test(
                 dir_name + "/" + model_name + "/" + "cfg.json",
@@ -130,7 +130,7 @@ def train(model_name, n_batch, jobnum, dir_name="models"):
     # end of training, save the model and make plots
 
     # save model
-    save_model(env, policy, losses, model_name)
+    save_model(env, policy, losses, model_name, dir_name=dir_name)
     with open(dir_name + "/" + model_name + "/" + "data.pkl", "wb") as f:
         pickle.dump(data, f)
     #print_losses(losses_weighted=losses_weighted, model_name=model_name, batch=batch)

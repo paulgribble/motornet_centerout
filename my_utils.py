@@ -186,14 +186,14 @@ def test(cfg_file, weight_file, ff_coefficient=None, loss_weights=None):
     return data, losses_weighted
 
 
-def print_losses(losses_weighted, model_name, batch):
+def print_losses(losses_weighted, model_name, batch, dir_name="models"):
     overall_loss = 0.0
     for l in losses_weighted.keys():
         overall_loss += losses_weighted[l]
     fstring = f"batch: {batch:5d}, overall_loss: {overall_loss:9.5f}, "
     for l in losses_weighted.keys():
         fstring = fstring + f"{l}: {losses_weighted[l]:9.5f}, "
-    with open("models/" + model_name + "/" + "losses.txt", "a") as f:
+    with open(dir_name + "/" + model_name + "/" + "losses.txt", "a") as f:
         print(fstring[:-2], file=f)
 
 
@@ -292,10 +292,10 @@ def calculate_lateral_deviation(xy, tg, vel=None):
     return sign*max_laterl_dev, init, endp, opt
 
 
-def save_model(env, policy, losses, model_name, quiet=False):
-    weight_file = os.path.join("models", model_name, "weights")
-    log_file = os.path.join("models", model_name, "log.json")
-    cfg_file = os.path.join("models", model_name, "cfg.json")
+def save_model(env, policy, losses, model_name, quiet=False, dir_name="models"):
+    weight_file = os.path.join(dir_name, model_name, "weights")
+    log_file = os.path.join(dir_name, model_name, "log.json")
+    cfg_file = os.path.join(dir_name, model_name, "cfg.json")
 
     # save model weights
     th.save(policy.state_dict(), weight_file)
