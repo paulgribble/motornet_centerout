@@ -8,6 +8,7 @@ import torch as th
 import motornet as mn
 from tqdm import tqdm
 import pickle
+import argparse
 
 from joblib import Parallel, delayed
 import multiprocessing
@@ -28,7 +29,7 @@ from my_utils import (
 )  # utility functions
 
 
-def train(model_name, n_batch, jobnum, dir_name="models"):
+def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interval=1000, catch_trial_perc=50):
 
     device = th.device("cpu")  # use the cpu not the gpu
 
@@ -53,14 +54,10 @@ def train(model_name, n_batch, jobnum, dir_name="models"):
 
     # make a directory to store the model info
     if not os.path.exists(f"{dir_name}/{model_name}"):
-        os.mkdir(f"{dir_name}/{model_name}")
+        os.makedirs(f"{dir_name}/{model_name}", exist_ok=True)
 
 
     # TRAIN THE RNN TO REACH TO RANDOM TARGETS
-
-    #n_batch = 10000  # number of batches to train on
-    batch_size = 32  # number of movements in each batch
-    interval = 1000  # save progress & plots every so often
 
     # a dictionary to store loss values over training
     losses = {
@@ -89,7 +86,7 @@ def train(model_name, n_batch, jobnum, dir_name="models"):
             env,
             policy,
             batch_size,
-            catch_trial_perc=50,
+            catch_trial_perc=catch_trial_perc,
             condition="train",  # 'train' means random targets in the arm's workspace
             ff_coefficient=0.0, # NULL FIELD
             detach=False,
@@ -160,15 +157,36 @@ def train(model_name, n_batch, jobnum, dir_name="models"):
     # fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"], all_obs=data["obs"])
 
 if __name__ == "__main__":
+    
+    parser = argparse.ArgumentParser(description='Train MotorNet models')
+    parser.add_argument('--n_batch', type=int, default=20000, help='Number of batches to train on (default: 20000)')
+    parser.add_argument('--batch_size', type=int, default=32, help='Number of movements in each batch (default: 32)')
+    parser.add_argument('--interval', type=int, default=1000, help='Save progress & plots every N batches (default: 1000)')
+    parser.add_argument('--catch_trial_perc', type=float, default=50.0, help='Percentage of catch trials (default: 50.0)')
+    parser.add_argument('--n_models', type=int, default=10, help='Number of models to train in parallel (default: 10)')
+    parser.add_argument('--dir_name', type=str, default='models', help='Directory to store model outputs (default: models)')
+    
+    args = parser.parse_args()
 
     print("All packages imported.")
     print("pytorch version: " + th.__version__)
     print("numpy version: " + np.__version__)
     print("motornet version: " + mn.__version__)
 
-    n_batch  = 20000  # number of batches to train on
-    n_models = 10     # train models in parallel
-    dir_name = "models"  # directory to store model outputs
+    n_batch = args.n_batch
+    n_models = args.n_models
+    batch_size = args.batch_size
+    interval = args.interval
+    catch_trial_perc = args.catch_trial_perc
+    dir_name = args.dir_name
+    
+    print(f"Training parameters:")
+    print(f"  n_batch: {n_batch}")
+    print(f"  batch_size: {batch_size}")
+    print(f"  interval: {interval}")
+    print(f"  catch_trial_perc: {catch_trial_perc}")
+    print(f"  n_models: {n_models}")
+    print(f"  dir_name: {dir_name}")
     
     n_cpus = multiprocessing.cpu_count()
     print(f"found {n_cpus} CPUs")
@@ -179,7 +197,7 @@ if __name__ == "__main__":
 
     th._dynamo.config.cache_size_limit = 64
 
-    result = Parallel(n_jobs=n_cpus)(delayed(train)(f"m{iteration}", n_batch, iteration, dir_name) for iteration in range(n_models))
+    result = Parallel(n_jobs=n_cpus)(delayed(train)(f"m{iteration}", n_batch, iteration, dir_name, batch_size, interval, catch_trial_perc) for iteration in range(n_models))
 
     # Create tar.gz archive of the results directory
     import subprocess
