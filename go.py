@@ -215,7 +215,7 @@ if __name__ == "__main__":
 
     multiprocessing.set_start_method("forkserver")
 
-    with Parallel(n_jobs=n_cpus) as parallel:          # ensures workers are joined
+    with Parallel(n_jobs=n_cpus, backend='multiprocessing') as parallel:
         result = parallel(
             delayed(train)(
                 f"m{iteration}", n_batch, iteration, dir_name, batch_size, interval, catch_trial_perc
