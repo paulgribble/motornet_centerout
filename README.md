@@ -13,18 +13,18 @@ simple demo of training a motornet system
 
 ## Installing motornet
 
-Assumption: you have python3.13 installed. On MacOS:
+Assumption: you have python3.12 installed. On MacOS:
 
 ```{shell}
-brew install python@3.13
+brew install python@3.12
 ```
 
 I use `pip` to organize Python environments.
 
 ```{shell}
-python3.13 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
-python3.13 -m pip install -U pip
+python3.12 -m pip install -U pip
 pip install -r requirements.txt --no-cache-dir --force
 ```
 
@@ -39,7 +39,7 @@ source .venv/bin/activate
 Then the `go.py` script is the starting point.
 
 ```{shell}
-python3.13 go.py
+python3.12 go.py
 ```
 
 After you can use the jupyter notebook `golook.ipynb` to load up some results and make some plots. You may need to install the following packages to run the notebook:
