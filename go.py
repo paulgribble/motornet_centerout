@@ -6,11 +6,16 @@ import multiprocessing as mp
 if mp.get_start_method(allow_none=True) != "spawn":
     mp.set_start_method("spawn", force=True)  # safest with PyTorch on macOS
 
+from multiprocessing import RLock
+LOCK = mp.RLock()
+
+from tqdm import tqdm
+tqdm.set_lock(LOCK)
+
 import json
 import numpy as np
 import torch as th
 import motornet as mn
-from tqdm import tqdm
 import pickle
 import argparse
 import warnings
