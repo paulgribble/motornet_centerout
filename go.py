@@ -2,6 +2,10 @@ import os
 os.environ['OMP_NUM_THREADS'] = '1'
 os.environ['MKL_NUM_THREADS'] = '1' # Set this too just in case
 
+import multiprocessing as mp
+if mp.get_start_method(allow_none=True) != "spawn":
+    mp.set_start_method("spawn", force=True)  # safest with PyTorch on macOS
+
 import json
 import numpy as np
 import torch as th
@@ -11,10 +15,9 @@ import pickle
 import argparse
 import warnings
 
-from joblib import Parallel, delayed
-from joblib.externals.loky import get_reusable_executor
-import multiprocessing
 import atexit
+from joblib import Parallel, delayed, parallel_config
+from joblib.externals.loky import get_reusable_executor
 
 from my_policy import Policy  # the RNN
 from my_task import CentreOutFF  # the task
@@ -203,32 +206,26 @@ if __name__ == "__main__":
     print(f"  n_models: {n_models}")
     print(f"  dir_name: {dir_name}")
     
-    n_cpus = multiprocessing.cpu_count()
+    n_cpus = mp.cpu_count()
     print(f"found {n_cpus} CPUs")
     print(f"training {n_models} models ...")
 
     if not os.path.exists(dir_name):
             os.mkdir(dir_name)
 
-    th._dynamo.config.cache_size_limit = 64
-
-    # Register cleanup on script exit
-    def cleanup_on_exit():
-        try:
-            from joblib.externals.loky import get_reusable_executor
-            get_reusable_executor().shutdown(wait=True)
-        except:
-            pass
-    atexit.register(cleanup_on_exit)
-
-    with Parallel(n_jobs=n_cpus, backend='multiprocessing') as parallel:
-        result = parallel(
-            delayed(train)(
-                f"m{iteration}", n_batch, iteration, dir_name, batch_size, interval, catch_trial_perc
-            ) for iteration in range(n_models)
-        )
-    get_reusable_executor().shutdown(wait=True, kill_workers=True)
-
+    try:
+        # Avoid memmap files that keep resources alive:
+        with parallel_config(max_nbytes=None):
+            Parallel(n_jobs=n_models, backend="loky")(
+                delayed(train)(
+                    f"m{iteration}", n_batch, iteration, dir_name, batch_size, interval, catch_trial_perc
+                )
+                for iteration in range(n_models)
+            )
+    finally:
+        # ensure semaphore cleanup even on exceptions
+        get_reusable_executor().shutdown(wait=True, kill_workers=True)
+   
     # Create tar.gz archive of the results directory
     import subprocess
     tar_filename = f"{dir_name}.tgz"

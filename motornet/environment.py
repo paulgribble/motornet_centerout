@@ -369,7 +369,10 @@ class Environment(gym.Env, th.nn.Module):
     Returns:
       A noisy version of `loc` as a `tensor`.
     """
-    white_noise = self.np_random.normal(size=(loc.shape[0], len(noise)), scale=noise)
+    if isinstance(noise[0], float):
+      white_noise = self.np_random.normal(size=(loc.shape[0], loc.shape[1]), scale=noise)
+    else:
+      white_noise = self.np_random.normal(size=(loc.shape[0], len(noise[0])), scale=noise)
     return loc + th.tensor(white_noise, dtype=th.float32).to(self.device)
 
   def get_attributes(self):
