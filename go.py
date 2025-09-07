@@ -217,6 +217,8 @@ if __name__ == "__main__":
 
     if not os.path.exists(dir_name):
             os.mkdir(dir_name)
+    
+    th._dynamo.config.cache_size_limit = 64
 
     try:
         # Avoid memmap files that keep resources alive:
