@@ -40,7 +40,7 @@ from my_utils import (
 )  # utility functions
 
 
-def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interval=1000, catch_trial_perc=50):
+def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interval=1000, catch_trial_perc=50, n_units=100, loss_weights=None):
 
     device = th.device("cpu")  # use the cpu not the gpu
 
@@ -56,7 +56,6 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interva
     env = CentreOutFF(effector=effector, max_ep_duration=1.6)
 
     # define the RNN
-    n_units = 100
     policy = Policy(env.observation_space.shape[0], n_units, env.n_muscles, device=device)
 
     # define the learning rule for updating RNN weights
@@ -74,7 +73,9 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interva
         "interval": interval,
         "catch_trial_perc": catch_trial_perc,
         "dir_name": dir_name,
-        "model_name": model_name
+        "model_name": model_name,
+        "n_units": n_units,
+        "loss_weights": loss_weights
     }
     with open(f"{dir_name}/{model_name}/cmd_args.json", "w") as f:
         json.dump(cmd_args, f, indent=2)
@@ -116,7 +117,7 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interva
         )
 
         # compute losses
-        loss, losses_weighted = cal_loss(data)
+        loss, losses_weighted = cal_loss(data, loss_weights=loss_weights)
 
         # backward pass & update weights
         optimizer.zero_grad()
@@ -135,6 +136,7 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interva
             data, _ = test(
                 dir_name + "/" + model_name + "/" + "cfg.json",
                 dir_name + "/" + model_name + "/" + "weights",
+                loss_weights=loss_weights,
             )
             plot_stuff(data, dir_name + "/" + model_name + "/", batch=batch)
 
@@ -159,6 +161,7 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interva
     data, _ = test(
         dir_name + "/" + model_name + "/" + "cfg.json",
         dir_name + "/" + model_name + "/" + "weights",
+        loss_weights=loss_weights,
     )
     plot_stuff(data, dir_name + "/" + model_name + "/", batch=batch)
 
@@ -188,6 +191,14 @@ if __name__ == "__main__":
     parser.add_argument('--catch_trial_perc', type=float, default=50.0, help='Percentage of catch trials (default: 50.0)')
     parser.add_argument('--n_models', type=int, default=10, help='Number of models to train in parallel (default: 10)')
     parser.add_argument('--dir_name', type=str, default='models', help='Directory to store model outputs (default: models)')
+    parser.add_argument('--n_units', type=int, default=100, help='Number of hidden units in RNN (default: 100)')
+    parser.add_argument('--loss_weight_position', type=float, default=1e+0, help='Loss weight for position (default: 1e+0)')
+    parser.add_argument('--loss_weight_speed', type=float, default=1e-3, help='Loss weight for speed (default: 1e-3)')
+    parser.add_argument('--loss_weight_jerk', type=float, default=1e-0, help='Loss weight for jerk (default: 1e-0)')
+    parser.add_argument('--loss_weight_muscle', type=float, default=1e-4, help='Loss weight for muscle (default: 1e-4)')
+    parser.add_argument('--loss_weight_muscle_derivative', type=float, default=1e-4, help='Loss weight for muscle derivative (default: 1e-4)')
+    parser.add_argument('--loss_weight_hidden', type=float, default=1e-2, help='Loss weight for hidden (default: 1e-2)')
+    parser.add_argument('--loss_weight_hidden_derivative', type=float, default=1e-1, help='Loss weight for hidden derivative (default: 1e-1)')
     
     args = parser.parse_args()
 
@@ -202,6 +213,16 @@ if __name__ == "__main__":
     interval = args.interval
     catch_trial_perc = args.catch_trial_perc
     dir_name = args.dir_name
+    n_units = args.n_units
+    loss_weights = [
+        args.loss_weight_position,
+        args.loss_weight_speed,
+        args.loss_weight_jerk,
+        args.loss_weight_muscle,
+        args.loss_weight_muscle_derivative,
+        args.loss_weight_hidden,
+        args.loss_weight_hidden_derivative
+    ]
     
     print(f"Training parameters:")
     print(f"  n_batch: {n_batch}")
@@ -210,6 +231,8 @@ if __name__ == "__main__":
     print(f"  catch_trial_perc: {catch_trial_perc}")
     print(f"  n_models: {n_models}")
     print(f"  dir_name: {dir_name}")
+    print(f"  n_units: {n_units}")
+    print(f"  loss_weights: {loss_weights}")
     
     n_cpus = mp.cpu_count()
     print(f"found {n_cpus} CPUs")
@@ -225,7 +248,7 @@ if __name__ == "__main__":
         with parallel_config(max_nbytes=None):
             Parallel(n_jobs=n_models, backend="loky")(
                 delayed(train)(
-                    f"m{iteration}", n_batch, iteration, dir_name, batch_size, interval, catch_trial_perc
+                    f"m{iteration}", n_batch, iteration, dir_name, batch_size, interval, catch_trial_perc, n_units, loss_weights
                 )
                 for iteration in range(n_models)
             )
