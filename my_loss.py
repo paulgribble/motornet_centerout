@@ -24,7 +24,7 @@ def cal_loss(data, loss_weights=None):
     if (loss_weights is None):
         loss_weights = np.array([1e+0,   # position
                                  1e-3,   # speed
-                                 1e-4,   # jerk
+                                 1e-0,   # jerk 1e-4
                                  1e-4,   # muscle
                                  1e-4,   # muscle_derivative
                                  1e-2,   # hidden
@@ -48,7 +48,7 @@ def cal_loss(data, loss_weights=None):
 
 
 
-    def cal_loss_old(data, loss_weights=None):
+def cal_loss_old(data, loss_weights=None):
 
     loss = {'position': None,
             'muscle': None,
