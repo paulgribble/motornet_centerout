@@ -50,3 +50,4 @@ pip install setuptools ipykernel nbconvert dPCA scipy scikit-learn numexpr numba
 
 You'll also need to install `ffmpeg` for your OS ... on MacOS using homebrew you can just `brew install ffmpeg`.
 
+Apple Silicon: doing `brew install libomp` will help make things stable when doing parallel training especially with compile directives
