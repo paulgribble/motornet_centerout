@@ -59,8 +59,7 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interva
     policy = Policy(env.observation_space.shape[0], n_units, env.n_muscles, device=device)
 
     # define the learning rule for updating RNN weights
-    optimizer = th.optim.Adam(policy.parameters(), lr=10**-3)
-
+    optimizer = th.optim.Adam(policy.parameters(), lr=1e-3)
 
     # make a directory to store the model info
     if not os.path.exists(f"{dir_name}/{model_name}"):
