@@ -192,13 +192,14 @@ if __name__ == "__main__":
     parser.add_argument('--n_models', type=int, default=10, help='Number of models to train in parallel (default: 10)')
     parser.add_argument('--dir_name', type=str, default='models', help='Directory to store model outputs (default: models)')
     parser.add_argument('--n_units', type=int, default=100, help='Number of hidden units in RNN (default: 100)')
-    parser.add_argument('--loss_weight_position', type=float, default=1e+0, help='Loss weight for position (default: 1e+0)')
-    parser.add_argument('--loss_weight_speed', type=float, default=1e-3, help='Loss weight for speed (default: 1e-3)')
-    parser.add_argument('--loss_weight_jerk', type=float, default=1e-0, help='Loss weight for jerk (default: 1e-0)')
-    parser.add_argument('--loss_weight_muscle', type=float, default=1e-4, help='Loss weight for muscle (default: 1e-4)')
-    parser.add_argument('--loss_weight_muscle_derivative', type=float, default=1e-4, help='Loss weight for muscle derivative (default: 1e-4)')
-    parser.add_argument('--loss_weight_hidden', type=float, default=1e-2, help='Loss weight for hidden (default: 1e-2)')
-    parser.add_argument('--loss_weight_hidden_derivative', type=float, default=1e-1, help='Loss weight for hidden derivative (default: 1e-1)')
+    # loss weight defaults from Shabazi et al 2024 A Context-Free Model of Savings in Motor Learning 10.1101/2025.03.26.645562
+    parser.add_argument('--loss_weight_position'         , type=float, default=1e+3, help='Loss weight for position (default: 1e+0)')
+    parser.add_argument('--loss_weight_speed'            , type=float, default=0e+0, help='Loss weight for speed (default: 1e-3)')
+    parser.add_argument('--loss_weight_jerk'             , type=float, default=1e+5, help='Loss weight for jerk (default: 1e-0)')
+    parser.add_argument('--loss_weight_muscle'           , type=float, default=1e-1, help='Loss weight for muscle (default: 1e-4)')
+    parser.add_argument('--loss_weight_muscle_derivative', type=float, default=3e-4, help='Loss weight for muscle derivative (default: 1e-4)')
+    parser.add_argument('--loss_weight_hidden'           , type=float, default=1e-5, help='Loss weight for hidden (default: 1e-2)')
+    parser.add_argument('--loss_weight_hidden_derivative', type=float, default=1e-3, help='Loss weight for hidden derivative (default: 1e-1)')
     
     args = parser.parse_args()
 

@@ -22,18 +22,19 @@ def cal_loss(data, loss_weights=None):
     loss['hidden_derivative'] = th.mean(th.sum(th.square(th.diff(data['all_hidden'], n=1, dim=1)), dim=-1))
 
     if (loss_weights is None):
-        # from Kashefi et al 2025, Compositional neural dynamics during reaching
+        # from Kashefi et al 2025, Compositional neural dynamics during reaching 10.1101/2025.09.04.674069
         # loss_weights = np.array([1e+0,   # position
         #                          1e-3,   # speed
-        #                          1e-0,   # jerk 1e-4
+        #                          1e-4,   # jerk
         #                          1e-4,   # muscle
         #                          1e-4,   # muscle_derivative
         #                          1e-2,   # hidden
         #                          1e-1])  # hidden_derivative
-        # from Shabazi et al 2024, 
+        #
+        # from Shabazi et al 2024 A Context-Free Model of Savings in Motor Learning 10.1101/2025.03.26.645562
         loss_weights = np.array([1e+3,   # position
                                     0,   # speed
-                                 1e+5,   # jerk 1e-4
+                                 1e+5,   # jerk
                                  1e-1,   # muscle
                                  3e-4,   # muscle_derivative
                                  1e-5,   # hidden
