@@ -40,7 +40,7 @@ from my_utils import (
 )  # utility functions
 
 
-def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interval=1000, catch_trial_perc=50, n_units=100, loss_weights=None):
+def train(model_name, n_batch, jobnum, dir_name="models", batch_size=64, interval=200, catch_trial_perc=50, n_units=256, loss_weights=None):
 
     device = th.device("cpu")  # use the cpu not the gpu
 
@@ -164,22 +164,7 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=32, interva
     )
     plot_stuff(data, dir_name + "/" + model_name + "/", batch=batch)
 
-    # # PLOT LOSS FUNCTION(s)
-    # log = json.load(open("models/" + model_name + "/" + "log.json", "r"))
-    # #print(log["losses"].keys())
-    # w = 50
-    # for loss in ["overall", "position", "muscle", "hidden", "jerk"]:
-    #     fig, ax = plot_training_log(log=log["losses"], loss_type=loss, w=w)
-    #     ax.set_title(f"{loss} (w={w})")
 
-    # # TEST NETWORK ON CENTRE-OUT
-    # data = test(
-    #     "models/" + model_name + "/" + "cfg.json",
-    #     "models/" + model_name + "/" + "weights",
-    # )[0]
-    # fig, ax = plot_simulations(xy=data["xy"], target_xy=data["tg"], figsize=(8, 6))
-    # fig, ax = plot_activation(data["all_hidden"], data["all_muscle"])
-    # fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"], all_obs=data["obs"])
 
 if __name__ == "__main__":
     
@@ -196,9 +181,9 @@ if __name__ == "__main__":
     parser.add_argument('--loss_weight_speed'            , type=float, default=0e+0, help='Loss weight for speed (default: 1e-3)')
     parser.add_argument('--loss_weight_jerk'             , type=float, default=1e+5, help='Loss weight for jerk (default: 1e-0)')
     parser.add_argument('--loss_weight_muscle'           , type=float, default=1e-1, help='Loss weight for muscle (default: 1e-4)')
-    parser.add_argument('--loss_weight_muscle_derivative', type=float, default=3e-4, help='Loss weight for muscle derivative (default: 1e-4)')
+    parser.add_argument('--loss_weight_muscle_derivative', type=float, default=0e+0, help='Loss weight for muscle derivative (default: 1e-4)')
     parser.add_argument('--loss_weight_hidden'           , type=float, default=1e-5, help='Loss weight for hidden (default: 1e-2)')
-    parser.add_argument('--loss_weight_hidden_derivative', type=float, default=1e-3, help='Loss weight for hidden derivative (default: 1e-1)')
+    parser.add_argument('--loss_weight_hidden_derivative', type=float, default=0e+0, help='Loss weight for hidden derivative (default: 1e-1)')
     
     args = parser.parse_args()
 
