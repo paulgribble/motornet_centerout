@@ -101,7 +101,6 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=64, interva
         total         = n_batch, 
         position      = jobnum,
         dynamic_ncols = True,
-#        mininterval   = 5.0,
         leave         = True
     ):
         # forward pass of all movements in the batch
@@ -154,7 +153,6 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=64, interva
     save_model(env, policy, losses, model_name, dir_name=dir_name)
     with open(dir_name + "/" + model_name + "/" + "data.pkl", "wb") as f:
         pickle.dump(data, f)
-    #print_losses(losses_weighted=losses_weighted, model_name=model_name, batch=batch)
 
     # run model test and make plots
     data, _ = test(
@@ -169,21 +167,21 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=64, interva
 if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description='Train MotorNet models')
-    parser.add_argument('--n_batch', type=int, default=20000, help='Number of batches to train on (default: 20000)')
-    parser.add_argument('--batch_size', type=int, default=32, help='Number of movements in each batch (default: 32)')
-    parser.add_argument('--interval', type=int, default=1000, help='Save progress & plots every N batches (default: 1000)')
+    parser.add_argument('--n_batch', type=int, default=5000, help='Number of batches to train on (default: 5000)')
+    parser.add_argument('--batch_size', type=int, default=64, help='Number of movements in each batch (default: 64)')
+    parser.add_argument('--interval', type=int, default=200, help='Save progress & plots every N batches (default: 200)')
     parser.add_argument('--catch_trial_perc', type=float, default=50.0, help='Percentage of catch trials (default: 50.0)')
-    parser.add_argument('--n_models', type=int, default=10, help='Number of models to train in parallel (default: 10)')
+    parser.add_argument('--n_models', type=int, default=4, help='Number of models to train in parallel (default: 4)')
     parser.add_argument('--dir_name', type=str, default='models', help='Directory to store model outputs (default: models)')
-    parser.add_argument('--n_units', type=int, default=100, help='Number of hidden units in RNN (default: 100)')
+    parser.add_argument('--n_units', type=int, default=256, help='Number of hidden units in RNN (default: 256)')
     # loss weight defaults from Shabazi et al 2024 A Context-Free Model of Savings in Motor Learning 10.1101/2025.03.26.645562
-    parser.add_argument('--loss_weight_position'         , type=float, default=1e+3, help='Loss weight for position (default: 1e+0)')
-    parser.add_argument('--loss_weight_speed'            , type=float, default=0e+0, help='Loss weight for speed (default: 1e-3)')
-    parser.add_argument('--loss_weight_jerk'             , type=float, default=1e+5, help='Loss weight for jerk (default: 1e-0)')
-    parser.add_argument('--loss_weight_muscle'           , type=float, default=1e-1, help='Loss weight for muscle (default: 1e-4)')
-    parser.add_argument('--loss_weight_muscle_derivative', type=float, default=0e+0, help='Loss weight for muscle derivative (default: 1e-4)')
-    parser.add_argument('--loss_weight_hidden'           , type=float, default=1e-5, help='Loss weight for hidden (default: 1e-2)')
-    parser.add_argument('--loss_weight_hidden_derivative', type=float, default=0e+0, help='Loss weight for hidden derivative (default: 1e-1)')
+    parser.add_argument('--loss_weight_position'         , type=float, default=1e+3, help='Loss weight for position (default: 1e+3)')
+    parser.add_argument('--loss_weight_speed'            , type=float, default=0e+0, help='Loss weight for speed (default: 0)')
+    parser.add_argument('--loss_weight_jerk'             , type=float, default=1e+5, help='Loss weight for jerk (default: 1e+5)')
+    parser.add_argument('--loss_weight_muscle'           , type=float, default=1e-1, help='Loss weight for muscle (default: 1e-1)')
+    parser.add_argument('--loss_weight_muscle_derivative', type=float, default=0e+0, help='Loss weight for muscle derivative (default: 0)')
+    parser.add_argument('--loss_weight_hidden'           , type=float, default=1e-5, help='Loss weight for hidden (default: 1e-5)')
+    parser.add_argument('--loss_weight_hidden_derivative', type=float, default=0e+0, help='Loss weight for hidden derivative (default: 0)')
     
     args = parser.parse_args()
 
