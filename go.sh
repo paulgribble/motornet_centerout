@@ -6,4 +6,5 @@ python go.py \
   --interval=200 \
   --catch_trial_perc=50 \
   --n_models=4 \
+  --n_units=256 \
   --dir_name=models 
