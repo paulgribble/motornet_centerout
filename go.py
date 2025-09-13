@@ -101,7 +101,7 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=64, interva
         total         = n_batch, 
         position      = jobnum,
         dynamic_ncols = True,
-        mininterval   = 5.0,
+#        mininterval   = 5.0,
         leave         = True
     ):
         # forward pass of all movements in the batch
