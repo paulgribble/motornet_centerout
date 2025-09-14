@@ -338,19 +338,23 @@ def plot_stuff(data, model_name, batch=0):
     fig.savefig(model_name+"_"+"kinematics_current_.png")
     plt.close(fig)
 
-def plot_losses(dir_name, model_name):
+def plot_losses(dir_name, model_name, losses=None, batch=None):
     fig,ax = plt.subplots(2,1, figsize=(10,12))
-    with open(dir_name + "/" + model_name + "/" + "log.json") as f:
-        losses = json.load(f)
-    for l in losses['losses'].keys():
-        ax[0].plot(losses['losses'][l])
-        ax[1].semilogy(losses['losses'][l])
-    ax[0].legend(losses['losses'].keys(), loc='upper right')
-    ax[1].legend(losses['losses'].keys(), loc='center right')
+    if losses is None:
+        with open(dir_name + "/" + model_name + "/" + "log.json") as f:
+            losses = json.load(f)
+            losses = losses['losses']
+    for l in losses.keys():
+        ax[0].plot(losses[l])
+        ax[1].semilogy(losses[l])
+    ax[0].legend(losses.keys(), loc='upper right')
+    ax[1].legend(losses.keys(), loc='center right')
     ax[1].set_xlabel('Batch')
     ax[0].set_ylabel('Loss')
     ax[1].set_ylabel('Loss')
     fig.tight_layout()
-    fig.savefig(dir_name + "/" + model_name + "/" + "_losses_.png")
-
+    if batch is None:
+        fig.savefig(dir_name + "/" + model_name + "/" + "_losses.png")
+    else:
+        fig.savefig(dir_name + "/" + model_name + "/" + f"losses_{batch}.png")
 
