@@ -351,4 +351,5 @@ def plot_losses(dir_name, model_name, losses, batch):
     fig.tight_layout()
     fig.savefig(dir_name + "/" + model_name + "/" + f"losses_{batch}.png")
     fig.savefig(dir_name + "/" + model_name + "/" + f"_losses_current.png")
+    plt.close(fig)
 
