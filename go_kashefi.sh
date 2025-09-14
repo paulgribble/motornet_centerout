@@ -2,6 +2,7 @@
 # loss weights from Kashefi 2025 Compositional neural dynamics during reaching
 
 # python go.py \
+#   --n_units=256 \
 #   --n_batch=20000 \
 #   --batch_size=256 \
 #   --interval=200 \
@@ -17,6 +18,7 @@
 #   --loss_weight_hidden_derivative=1e-1
 
 python go.py \
+  --n_units=256 \
   --n_batch=20000 \
   --batch_size=256 \
   --interval=200 \
