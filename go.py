@@ -2,6 +2,8 @@ import os
 os.environ['OMP_NUM_THREADS'] = '1'
 os.environ['MKL_NUM_THREADS'] = '1' # Set this too just in case
 
+import subprocess
+
 import multiprocessing as mp
 if mp.get_start_method(allow_none=True) != "spawn":
     mp.set_start_method("spawn", force=True)  # safest with PyTorch on macOS
@@ -37,6 +39,7 @@ from my_utils import (
     plot_simulations,
     plot_activation,
     plot_kinematics,
+    plot_losses
 )  # utility functions
 
 
@@ -161,28 +164,28 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=64, interva
         loss_weights=loss_weights,
     )
     plot_stuff(data, dir_name + "/" + model_name + "/", batch=batch)
-
+    # plot losses
+    plot_losses(dir_name, model_name)
 
 
 if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description='Train MotorNet models')
-    parser.add_argument('--n_batch', type=int, default=5000, help='Number of batches to train on (default: 5000)')
-    parser.add_argument('--batch_size', type=int, default=64, help='Number of movements in each batch (default: 64)')
-    parser.add_argument('--interval', type=int, default=200, help='Save progress & plots every N batches (default: 200)')
-    parser.add_argument('--catch_trial_perc', type=float, default=50.0, help='Percentage of catch trials (default: 50.0)')
-    parser.add_argument('--n_models', type=int, default=4, help='Number of models to train in parallel (default: 4)')
-    parser.add_argument('--dir_name', type=str, default='models', help='Directory to store model outputs (default: models)')
-    parser.add_argument('--n_units', type=int, default=256, help='Number of hidden units in RNN (default: 256)')
+    parser.add_argument('--n_batch'                      , type=int,   default=5000,     help='Number of batches to train on (default: 5000)')
+    parser.add_argument('--batch_size'                   , type=int,   default=64,       help='Number of movements in each batch (default: 64)')
+    parser.add_argument('--interval'                     , type=int,   default=200,      help='Save progress & plots every N batches (default: 200)')
+    parser.add_argument('--catch_trial_perc'             , type=float, default=50.0,     help='Percentage of catch trials (default: 50.0)')
+    parser.add_argument('--n_models'                     , type=int,   default=4,        help='Number of models to train in parallel (default: 4)')
+    parser.add_argument('--dir_name'                     , type=str,   default='models', help='Directory to store model outputs (default: models)')
+    parser.add_argument('--n_units'                      , type=int,   default=256,      help='Number of hidden units in RNN (default: 256)')
     # loss weights from Kashefi 2025 Compositional neural dynamics during reaching
-    parser.add_argument('--loss_weight_position'         , type=float, default=1e+0, help='Loss weight for position')
-    parser.add_argument('--loss_weight_speed'            , type=float, default=1e-3, help='Loss weight for speed')
-    parser.add_argument('--loss_weight_jerk'             , type=float, default=1e-4, help='Loss weight for jerk')
-    parser.add_argument('--loss_weight_muscle'           , type=float, default=1e-4, help='Loss weight for muscle')
-    parser.add_argument('--loss_weight_muscle_derivative', type=float, default=1e-4, help='Loss weight for muscle derivative')
-    parser.add_argument('--loss_weight_hidden'           , type=float, default=1e-2, help='Loss weight for hidden')
-    parser.add_argument('--loss_weight_hidden_derivative', type=float, default=1e-1, help='Loss weight for hidden derivative')
-    
+    parser.add_argument('--loss_weight_position'         , type=float, default=1e+0,     help='Loss weight for position')
+    parser.add_argument('--loss_weight_speed'            , type=float, default=1e-3,     help='Loss weight for speed')
+    parser.add_argument('--loss_weight_jerk'             , type=float, default=1e-4,     help='Loss weight for jerk')
+    parser.add_argument('--loss_weight_muscle'           , type=float, default=1e-4,     help='Loss weight for muscle')
+    parser.add_argument('--loss_weight_muscle_derivative', type=float, default=1e-4,     help='Loss weight for muscle derivative')
+    parser.add_argument('--loss_weight_hidden'           , type=float, default=1e-2,     help='Loss weight for hidden')
+    parser.add_argument('--loss_weight_hidden_derivative', type=float, default=1e-1,     help='Loss weight for hidden derivative')
     args = parser.parse_args()
 
     print("All packages imported.")
@@ -190,14 +193,14 @@ if __name__ == "__main__":
     print("numpy version: " + np.__version__)
     print("motornet version: " + mn.__version__)
 
-    n_batch = args.n_batch
-    n_models = args.n_models
-    batch_size = args.batch_size
-    interval = args.interval
+    n_batch          = args.n_batch
+    n_models         = args.n_models
+    batch_size       = args.batch_size
+    interval         = args.interval
     catch_trial_perc = args.catch_trial_perc
-    dir_name = args.dir_name
-    n_units = args.n_units
-    loss_weights = [
+    dir_name         = args.dir_name
+    n_units          = args.n_units
+    loss_weights     = [
         args.loss_weight_position,
         args.loss_weight_speed,
         args.loss_weight_jerk,
@@ -208,14 +211,14 @@ if __name__ == "__main__":
     ]
     
     print(f"Training parameters:")
-    print(f"  n_batch: {n_batch}")
-    print(f"  batch_size: {batch_size}")
-    print(f"  interval: {interval}")
-    print(f"  catch_trial_perc: {catch_trial_perc}")
-    print(f"  n_models: {n_models}")
-    print(f"  dir_name: {dir_name}")
-    print(f"  n_units: {n_units}")
-    print(f"  loss_weights: {loss_weights}")
+    print(f"  n_units          : {n_units}")
+    print(f"  n_batch          : {n_batch}")
+    print(f"  batch_size       : {batch_size}")
+    print(f"  interval         : {interval}")
+    print(f"  catch_trial_perc : {catch_trial_perc}")
+    print(f"  n_models         : {n_models}")
+    print(f"  loss_weights     : {loss_weights}")
+    print(f"  dir_name         : {dir_name}")
     
     n_cpus = mp.cpu_count()
     print(f"found {n_cpus} CPUs")
@@ -240,7 +243,6 @@ if __name__ == "__main__":
         get_reusable_executor().shutdown(wait=True, kill_workers=True)
    
     # Create tar.gz archive of the results directory
-    import subprocess
     tar_filename = f"{dir_name}.tgz"
     print(f"Creating archive: {tar_filename}")
     subprocess.run(["tar", "-czf", tar_filename, dir_name], check=True)
