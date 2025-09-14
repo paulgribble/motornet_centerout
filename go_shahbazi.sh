@@ -2,7 +2,7 @@
 # loss weights from Shabazi et al 2024 A Context-Free Model of Savings in Motor Learning 10.1101/2025.03.26.645562
 
 python go.py \
-  --n_batch=5000 \
+  --n_batch=10000 \
   --batch_size=64 \
   --interval=200 \
   --catch_trial_perc=50 \

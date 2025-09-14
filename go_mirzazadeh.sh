@@ -3,7 +3,7 @@
 # https://github.com/neural-control-and-computation-lab/MotorNet/tree/JAM-staging/MotorSaving
 
 python go.py \
-  --n_batch=5000 \
+  --n_batch=10000 \
   --batch_size=64 \
   --interval=200 \
   --catch_trial_perc=50 \

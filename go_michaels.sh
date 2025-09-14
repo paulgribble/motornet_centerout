@@ -2,7 +2,7 @@
 # loss weights from Sensory expectations shape neural population dynamics in motor circuits
 
 python go.py \
-  --n_batch=5000 \
+  --n_batch=10000 \
   --batch_size=64 \
   --interval=200 \
   --catch_trial_perc=50 \
