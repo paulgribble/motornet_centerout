@@ -174,14 +174,14 @@ if __name__ == "__main__":
     parser.add_argument('--n_models', type=int, default=4, help='Number of models to train in parallel (default: 4)')
     parser.add_argument('--dir_name', type=str, default='models', help='Directory to store model outputs (default: models)')
     parser.add_argument('--n_units', type=int, default=256, help='Number of hidden units in RNN (default: 256)')
-    # loss weight defaults from Shabazi et al 2024 A Context-Free Model of Savings in Motor Learning 10.1101/2025.03.26.645562
-    parser.add_argument('--loss_weight_position'         , type=float, default=1e+3, help='Loss weight for position (default: 1e+3)')
-    parser.add_argument('--loss_weight_speed'            , type=float, default=0e+0, help='Loss weight for speed (default: 0)')
-    parser.add_argument('--loss_weight_jerk'             , type=float, default=1e+5, help='Loss weight for jerk (default: 1e+5)')
-    parser.add_argument('--loss_weight_muscle'           , type=float, default=1e-1, help='Loss weight for muscle (default: 1e-1)')
-    parser.add_argument('--loss_weight_muscle_derivative', type=float, default=0e+0, help='Loss weight for muscle derivative (default: 0)')
-    parser.add_argument('--loss_weight_hidden'           , type=float, default=1e-5, help='Loss weight for hidden (default: 1e-5)')
-    parser.add_argument('--loss_weight_hidden_derivative', type=float, default=0e+0, help='Loss weight for hidden derivative (default: 0)')
+    # loss weights from Kashefi 2025 Compositional neural dynamics during reaching
+    parser.add_argument('--loss_weight_position'         , type=float, default=1e+0, help='Loss weight for position')
+    parser.add_argument('--loss_weight_speed'            , type=float, default=1e-3, help='Loss weight for speed')
+    parser.add_argument('--loss_weight_jerk'             , type=float, default=1e-4, help='Loss weight for jerk')
+    parser.add_argument('--loss_weight_muscle'           , type=float, default=1e-4, help='Loss weight for muscle')
+    parser.add_argument('--loss_weight_muscle_derivative', type=float, default=1e-4, help='Loss weight for muscle derivative')
+    parser.add_argument('--loss_weight_hidden'           , type=float, default=1e-2, help='Loss weight for hidden')
+    parser.add_argument('--loss_weight_hidden_derivative', type=float, default=1e-1, help='Loss weight for hidden derivative')
     
     args = parser.parse_args()
 
