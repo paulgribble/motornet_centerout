@@ -321,29 +321,25 @@ def plot_stuff(data, model_name, batch=0):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()
     fig.savefig(model_name+"handpaths_"+str(batch)+".png")
-    fig.savefig(model_name+"_"+"handpaths_current_.png")
+    fig.savefig(model_name+"_"+"handpaths_current.png")
     plt.close(fig)
     fig, ax = plot_activation(data['all_hidden'], data['all_muscle'])
     if (not batch == None):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()
     fig.savefig(model_name+"muscles_"+str(batch)+".png")
-    fig.savefig(model_name+"_"+"muscles_current_.png")
+    fig.savefig(model_name+"_"+"muscles_current.png")
     plt.close(fig)
     fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"], all_obs=data["obs"])
     if (not batch == None):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()
     fig.savefig(model_name+"kinematics_"+str(batch)+".png")
-    fig.savefig(model_name+"_"+"kinematics_current_.png")
+    fig.savefig(model_name+"_"+"kinematics_current.png")
     plt.close(fig)
 
-def plot_losses(dir_name, model_name, losses=None, batch=None):
+def plot_losses(dir_name, model_name, losses, batch):
     fig,ax = plt.subplots(2,1, figsize=(10,12))
-    if losses is None:
-        with open(dir_name + "/" + model_name + "/" + "log.json") as f:
-            losses = json.load(f)
-            losses = losses['losses']
     for l in losses.keys():
         ax[0].plot(losses[l])
         ax[1].semilogy(losses[l])
@@ -353,8 +349,6 @@ def plot_losses(dir_name, model_name, losses=None, batch=None):
     ax[0].set_ylabel('Loss')
     ax[1].set_ylabel('Loss')
     fig.tight_layout()
-    if batch is None:
-        fig.savefig(dir_name + "/" + model_name + "/" + "_losses.png")
-    else:
-        fig.savefig(dir_name + "/" + model_name + "/" + f"losses_{batch}.png")
+    fig.savefig(dir_name + "/" + model_name + "/" + f"losses_{batch}.png")
+    fig.savefig(dir_name + "/" + model_name + "/" + f"_losses_current.png")
 

@@ -166,8 +166,7 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=64, interva
         loss_weights=loss_weights,
     )
     plot_stuff(data, dir_name + "/" + model_name + "/", batch=batch)
-    # plot losses
-    plot_losses(dir_name, model_name)
+    plot_losses(dir_name, model_name, losses, batch)
 
 
 if __name__ == "__main__":
