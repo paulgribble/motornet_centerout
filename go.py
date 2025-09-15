@@ -89,11 +89,12 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=64, interva
     losses = {
         "overall": [],
         "position": [],
+        "speed": [],
+        "jerk": [],
         "muscle": [],
         "muscle_derivative": [],
         "hidden": [],
         "hidden_derivative": [],
-        "jerk": [],
     }
 
     # train over batches!
@@ -129,11 +130,12 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=64, interva
         # Update loss values in the dictionary
         losses["overall"].append(loss.item())
         losses["position"].append(losses_weighted["position"].item())
+        losses["speed"].append(losses_weighted["speed"].item())
+        losses["jerk"].append(losses_weighted["jerk"].item())
         losses["muscle"].append(losses_weighted["muscle"].item())
         losses["muscle_derivative"].append(losses_weighted["muscle_derivative"].item())
         losses["hidden"].append(losses_weighted["hidden"].item())
         losses["hidden_derivative"].append(losses_weighted["hidden_derivative"].item())
-        losses["jerk"].append(losses_weighted["jerk_loss"].item())
 
         # save weights/config/losses
         if (batch % interval == 0) and (batch != 0):

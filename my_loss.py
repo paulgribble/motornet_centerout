@@ -22,8 +22,8 @@ def cal_loss(data, loss_weights=None):
 
     losses_weighted = {
         'position':          loss_weights[0] * loss['position'],
-        'speed_loss':        loss_weights[1] * loss['speed'],
-        'jerk_loss':         loss_weights[2] * loss['jerk'],
+        'speed':             loss_weights[1] * loss['speed'],
+        'jerk':              loss_weights[2] * loss['jerk'],
         'muscle':            loss_weights[3] * loss['muscle'],
         'muscle_derivative': loss_weights[4] * loss['muscle_derivative'],
         'hidden':            loss_weights[5] * loss['hidden'],
