@@ -63,6 +63,7 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=64, interva
 
     # define the learning rule for updating RNN weights
     optimizer = th.optim.Adam(policy.parameters(), lr=1e-3)
+#    optimizer = th.optim.AdamW(policy.parameters(), lr=1e-3, betas=(0.90,0.95), eps=1e-8, weight_decay=1e-2)
 
     # make a directory to store the model info
     if not os.path.exists(f"{dir_name}/{model_name}"):
