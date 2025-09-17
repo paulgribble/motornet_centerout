@@ -1,12 +1,12 @@
 #!/bin/zsh
 
 python go.py \
-  --n_units=128 \
-  --n_batch=2000 \
+  --n_units=256 \
+  --n_batch=10000 \
   --batch_size=64 \
   --interval=100 \
-  --catch_trial_perc=40 \
-  --n_models=4 \
+  --catch_trial_perc=37.5 \
+  --n_models=10 \
   --loss_weight_position=1e+0 \
   --loss_weight_speed=1e-3 \
   --loss_weight_jerk=1e-4 \
