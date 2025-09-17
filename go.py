@@ -56,7 +56,10 @@ def train(model_name, n_batch, jobnum, dir_name="models", batch_size=64, interva
     # also allows for NF or FF or force-channel probe trials
     # also includes reaching to random targets in the workspace
     # by default 50% no-go catch trials (to help it learn to stay put until the go cue)
-    env = CentreOutFF(effector=effector, max_ep_duration=2.56)
+    env = CentreOutFF(effector=effector, max_ep_duration=2.56,
+                      proprioception_delay=0.02, vision_delay=0.07,
+                      proprioception_noise=1e-3, vision_noise=1e-3, action_noise=1e-4
+                    )
 
     # define the RNN
     policy = Policy(env.observation_space.shape[0], n_units, env.n_muscles, device=device)
