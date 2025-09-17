@@ -55,6 +55,7 @@ def plot_simulations(xy, target_xy, figsize=(5, 3)):
 
 def plot_activation(all_hidden, all_muscles):
     n = np.shape(all_muscles)[0]
+    n = min(n,4) # restrict to at most 4 plots
     nt = np.shape(all_muscles)[1]
     fig, ax = plt.subplots(nrows=n, ncols=2, figsize=(6, 10))
 
@@ -73,6 +74,7 @@ def plot_activation(all_hidden, all_muscles):
 
 def plot_kinematics(all_xy, all_tg, all_vel, all_obs):
     n = np.shape(all_xy)[0] # movements
+    n = min(n,4) # restrict to at most 4 plots
     fig, ax = plt.subplots(nrows=n, ncols=2, figsize=(6, 10))
 
     x = np.linspace(0, all_xy.size(dim=1), all_xy.size(dim=1))
