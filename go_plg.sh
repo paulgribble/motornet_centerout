@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+export VECLIB_MAXIMUM_THREADS=1
+
 python go.py \
   --n_units=256 \
   --n_batch=10000 \

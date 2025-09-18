@@ -1,12 +1,10 @@
 import os
+os.environ['VECLIB_MAXIMUM_THREADS'] = 1
 os.environ['OMP_NUM_THREADS'] = '1'
 os.environ['MKL_NUM_THREADS'] = '1' # Set this too just in case
+os.environ['OPENBLAS_NUM_THREADS'] = 1
 
 import subprocess
-
-import multiprocessing as mp
-if mp.get_start_method(allow_none=True) != "spawn":
-    mp.set_start_method("spawn", force=True)  # safest with PyTorch on macOS
 
 from multiprocessing import RLock
 LOCK = mp.RLock()
@@ -14,9 +12,14 @@ LOCK = mp.RLock()
 from tqdm import tqdm
 tqdm.set_lock(LOCK)
 
+import torch as th
+import torch.multiprocessing as mp
+mp.set_start_method("spawn", force=True)
+torch.set_num_threads(1)           # intra-op
+torch.set_num_interop_threads(1)   # inter-op
+
 import json
 import numpy as np
-import torch as th
 import motornet as mn
 import pickle
 import argparse
