@@ -1,6 +1,7 @@
 #!/bin/zsh
 
 export VECLIB_MAXIMUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
 
 python go.py \
   --n_units=256 \
@@ -8,7 +9,7 @@ python go.py \
   --batch_size=64 \
   --interval=100 \
   --catch_trial_perc=37.5 \
-  --n_models=10 \
+  --n_models=5 \
   --loss_weight_position=1e+2 \
   --loss_weight_speed=1e-1 \
   --loss_weight_jerk=1e+4 \
