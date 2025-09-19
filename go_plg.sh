@@ -7,7 +7,7 @@ python go.py \
   --interval=1000 \
   --catch_trial_perc=50 \
   --n_models=5 \
-  --dir_name=models_shahbazi \
+  --dir_name=models \
   --loss_weight_position=1e+3 \
   --loss_weight_speed=1e-3 \
   --loss_weight_jerk=1e+5 \
