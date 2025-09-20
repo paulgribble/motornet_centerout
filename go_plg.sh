@@ -1,4 +1,5 @@
 #!/bin/zsh
+#
 
 python go.py \
   --n_batch=10000 \
