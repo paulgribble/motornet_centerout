@@ -322,21 +322,21 @@ def plot_stuff(data, model_name, batch=0):
     if (not batch == None):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()
-    fig.savefig(model_name+"handpaths_"+str(batch)+".png")
+    fig.savefig(f"{model_name}handpaths_{batch:05d}.png")
     fig.savefig(model_name+"_"+"handpaths_current.png")
     plt.close(fig)
     fig, ax = plot_activation(data['all_hidden'], data['all_muscle'])
     if (not batch == None):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()
-    fig.savefig(model_name+"muscles_"+str(batch)+".png")
+    fig.savefig(f"{model_name}muscles_{batch:05d}.png")
     fig.savefig(model_name+"_"+"muscles_current.png")
     plt.close(fig)
     fig, ax = plot_kinematics(all_xy=data["xy"], all_tg=data["tg"], all_vel=data["vel"], all_obs=data["obs"])
     if (not batch == None):
         fig.suptitle(f"batch={batch}")
     fig.tight_layout()
-    fig.savefig(model_name+"kinematics_"+str(batch)+".png")
+    fig.savefig(f"{model_name}kinematics_{batch:05d}.png")
     fig.savefig(model_name+"_"+"kinematics_current.png")
     plt.close(fig)
 
@@ -351,7 +351,7 @@ def plot_losses(dir_name, model_name, losses, batch):
     ax[0].set_ylabel('Loss')
     ax[1].set_ylabel('Loss')
     fig.tight_layout()
-    fig.savefig(dir_name + "/" + model_name + "/" + f"losses_{batch}.png")
+    fig.savefig(dir_name + "/" + model_name + "/" + f"losses_{batch:05d}.png")
     fig.savefig(dir_name + "/" + model_name + "/" + f"_losses_current.png")
     plt.close(fig)
 
